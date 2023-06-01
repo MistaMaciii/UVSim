@@ -28,3 +28,4 @@ BRANCHZERO = 42 Branch to a specific location in memory if the accumulator is ze
 HALT = 43 Pause the program
 
 The last two digits of a BasicML instruction are the operand – the address of the memory location containing the word to which the operation applies.
+Check out this new feature!
