@@ -20,7 +20,12 @@ def load(mem_load_location):
 def store(mem_store_location):
     #Store a word from the accumulator into a specific location in memory.
     mem[mem_store_location] = acc    
-    
+
+def branch(add):
+    """Branch to a specific location in memory"""
+    global ip
+    ip = int(add)    #set the instruction pointer to the memory address that was passed through
+
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
 ip = 0      #initializes the intruction pointer
@@ -52,4 +57,18 @@ while ip < len(mem):            #runs the code
         load(mem_add)
     elif op_code == "21":   #Store a word from the accumulator into a specific location in memory.
         store(mem_add)
+    elif op_code == "40":   #branch to location in memory
+        branch(mem_add)
+        continue
+    elif op_code == "41":   #branch if accumulator is negative
+        if curr_word[0] < 0:
+            branch(mem_add)
+            continue
+    elif op_code == "42":   #branch if the accumulator is zero
+        if curr_word[0] == 0:
+            branch(mem_add)
+            continue
+    elif op_code == "43":   #pause the program
+        break
+
     ip += 1     #go to the next word
