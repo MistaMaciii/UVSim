@@ -12,6 +12,15 @@ def write(add):
     out = mem[add]
     print(out)
 
+def load(mem_load_location):
+    #Load a word from a specific location in memory into the accumulator.
+    global acc
+    acc = mem[mem_load_location]
+    
+def store(mem_store_location):
+    #Store a word from the accumulator into a specific location in memory.
+    mem[mem_store_location] = acc    
+    
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
 ip = 0      #initializes the intruction pointer
@@ -39,5 +48,8 @@ while ip < len(mem):            #runs the code
         read(mem_add)
     elif op_code == "11":   #write from memory to screen
         write(mem_add)
-
+    elif op_code == "20":     #Load a word from a specific location in memory into the accumulator.
+        load(mem_add)
+    elif op_code == "21":   #Store a word from the accumulator into a specific location in memory.
+        store(mem_add)
     ip += 1     #go to the next word
