@@ -1,7 +1,7 @@
 import pytest
-from main.py import *
+import main
 def test_load():
-    load(21)
-    assert acc == 21
+    main.load(21)
+    assert main.acc == 21
 
 test_load()
