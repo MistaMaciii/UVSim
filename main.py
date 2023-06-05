@@ -5,7 +5,16 @@ Sets up virtual machine and runs imported code
 def read(add):
     """Read a word from the keyboard into a specific location in memory"""
     user_in = input("Input a word(+1234): ")
-    user_in = user_in[0:5]
+    if len(user_in) != 5:   #if word is not == 5 chars redo
+        print("incorrect length")
+        read(add)
+        return
+
+    if (user_in[0] != '+') and (user_in[0] != '-'):   #if word doesn't start with + or - redo
+        print("needs a + or - at beginning")
+        read(add)
+        return
+
     mem[add] = user_in
 def write(add):
     """Write a word from a specific location in memory to screen"""
@@ -29,16 +38,24 @@ def branch(add):
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
 ip = 0      #initializes the intruction pointer
+line = 1
 file = input("What is your file name?: ")   #gets file name from user
 f = open(file, "r", encoding="utf8")        #opens file
 for x in f:
-    word = x[0:6]
-    if word in ("-99999", "\n"):
+    if x in ("-99999"):
         f.close()
-        break           #if word is -99999, or an empty line, stop reading and close the file
-    word = word[0:5]    #else set the word to the frist 5 characters
+        break           #if word is -99999, stop reading and close the file
+
+    word = x[0:-1]      #set word to one smaller than word length to remove newline
+    if len(word) != 5:   #if word is longer than 5 chars throw an error
+        raise ValueError("incorrect input format on line " + str(line))
+
+    if (word[0] != '+') and (word[0] != '-'):   #if word doesn't start with + or - throw an error
+        raise ValueError("incorrect input format on line " + str(line))
+
     mem.append(word)    #append the word to memory
     #print(mem[-1])
+    line += 1
 f.close()
 while ip < len(mem):            #runs the code
     curr_word = mem[ip]         #set curret word = to the word the IP is pointing to
