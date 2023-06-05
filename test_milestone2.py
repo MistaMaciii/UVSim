@@ -1,5 +1,5 @@
 import pytest
-import main
+from main import load
 def test_load():
     main.load(21)
     assert main.acc == 21
