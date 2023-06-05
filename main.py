@@ -78,11 +78,11 @@ while ip < len(mem):            #runs the code
         branch(mem_add)
         continue
     elif op_code == "41":   #branch if accumulator is negative
-        if curr_word[0] < 0:
+        if curr_word[0] == "-":
             branch(mem_add)
             continue
     elif op_code == "42":   #branch if the accumulator is zero
-        if curr_word[0] == 0:
+        if int(curr_word[1:]) == 0:
             branch(mem_add)
             continue
     elif op_code == "43":   #pause the program
