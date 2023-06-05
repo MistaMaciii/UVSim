@@ -48,7 +48,7 @@ while ip < len(mem):            #runs the code
         read(mem_add)
     elif op_code == "11":   #write from memory to screen
         write(mem_add)
-    elif op_code == "20":     #Load a word from a specific location in memory into the accumulator.
+    elif op_code == "20":   #Load a word from a specific location in memory into the accumulator.
         load(mem_add)
     elif op_code == "21":   #Store a word from the accumulator into a specific location in memory.
         store(mem_add)
