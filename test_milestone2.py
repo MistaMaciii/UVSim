@@ -11,30 +11,21 @@ def test_load_pass():
     assert main.acc == "1006"
 
 def test_load_fail():
-    global acc
     main.acc = "+0000"
-
-    global mem
     main.mem = ['1000','1001','1002','1003','1004','1005','1006','1007','1008','1009','1010','1011']
     with pytest.raises(IndexError):
         main.load(13)
     assert main.acc == "+0000"
 
 def test_store_pass():
-    global acc
     main.acc = "+1345"
-
-    global mem
     main.mem = ['1000','1001','1002','1003','1004','1005','1006','1007','1008','1009','1010','1011']
     main.store(6)
     assert main.mem[6] == "+1345"
 
 def test_store_fail():
-    global acc
     main.acc = "+1345"
-
-    global mem
     main.mem = ['1000','1001','1002','1003','1004','1005','1006','1007','1008','1009','1010','1011']
-    with pytest.raises(IndexError):
-        main.store(-1)
+    with pytest.raises(TypeError):
+        main.store("a")
     assert main.mem[6] == "1006"
