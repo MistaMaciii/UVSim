@@ -16,8 +16,6 @@ def read(add):
         print("needs a + or - at beginning")
         read(add)
         return
-
-
     mem[add] = user_in
 def write(add):
     """Write a word from a specific location in memory to screen"""
@@ -26,7 +24,6 @@ def write(add):
     out = mem[add]
     print(out)
     return out
-
 def load(mem_load_location):
     #Load a word from a specific location in memory into the accumulator.
     global acc
@@ -34,7 +31,28 @@ def load(mem_load_location):
     
 def store(mem_store_location):
     #Store a word from the accumulator into a specific location in memory.
-    mem[mem_store_location] = acc    
+    mem[mem_store_location] = acc  
+    
+def addit(add):
+    global acc
+    word_inmem = mem[add]   #the word in memory at the specified location
+    addit_res = (int(word_inmem) + int(acc)) #adds the int of the word in mem and the word in the accumulator
+    acc = addit_res #stores result in accumulator
+def sub(add):
+    global acc
+    word_inmem = mem[add]
+    addit_res = ( int(acc) - int(word_inmem)) #subtracts the int of the word in mem from the word in the accumulator
+    acc = addit_res
+def div(add):
+    global acc
+    word_inmem = mem[add]
+    addit_res = ( int(acc) / int(word_inmem)) #divides the word in the accumulator by the int of the word in mem
+    acc = addit_res
+def mult(add):
+    global acc
+    word_inmem = mem[add]
+    addit_res = (int(word_inmem) * int(acc)) #multiplies the int of the word in mem and the word in the accumulator
+    acc = addit_res
 
 def branch(add):
     """Branch to a specific location in memory"""
@@ -81,6 +99,14 @@ if __name__ == '__main__':
             load(mem_add)
         elif op_code == "21":   #Store a word from the accumulator into a specific location in memory.
             store(mem_add)
+        elif op_code == "30":     #Add a word from a specific location in memory to the word in the accumulator
+            addit(mem_add)
+        elif op_code == "31":   #Subtract a word from a specific location in memory from the word in the accumulator
+            sub(mem_add)
+        elif op_code == "32":     #Divide the word in the accumulator by a word from a specific location in memory
+            div(mem_add)
+        elif op_code == "33":   #multiply a word from a specific location in memory to the word in the accumulator 
+            mult(mem_add)
         elif op_code == "40":   #branch to location in memory
             branch(mem_add)
             continue
