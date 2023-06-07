@@ -85,7 +85,7 @@ if __name__ == '__main__':
             branch(mem_add)
             continue
         elif op_code == "41":   #branch if accumulator is negative
-            if curr_word[0] == "-":
+            if acc < 0:
                 branch(mem_add)
                 continue
         elif op_code == "42":   #branch if the accumulator is zero
