@@ -4,6 +4,8 @@ Sets up virtual machine and runs imported code
 """
 def read(add):
     """Read a word from the keyboard into a specific location in memory"""
+    if add > len(mem) -1:
+        raise IndexError("Can't access memory at index " + str(add))
     user_in = input("Input a word(+1234): ")
     if len(user_in) != 5:   #if word is not == 5 chars redo
         print("incorrect length")
@@ -19,8 +21,11 @@ def read(add):
     mem[add] = user_in
 def write(add):
     """Write a word from a specific location in memory to screen"""
+    if add > len(mem) -1:
+        raise IndexError("Can't access memory at index " + str(add))
     out = mem[add]
     print(out)
+    return out
 
 def load(mem_load_location):
     #Load a word from a specific location in memory into the accumulator.
