@@ -1,11 +1,19 @@
-========================================================================================================================
-Project Spec
-========================================================================================================================
-The UVSim is a simple virtual machine, but powerful. The UVSim can only interpret a machine language called BasicML.
+==========================
+=== UVSim Instructions ===
+==========================
 
-The UVSim contains CPU, register, and main memory. An accumulator – a register into which information is put before the UVSim uses it in calculations or examines it in various ways. All the information in the UVSim is handled in terms of words. A word is a signed four-digit decimal number, such as +1234, -5678. The UVSim is equipped with a 100-word memory, and these words are referenced by their location numbers 00, 01, ..., 99. The BasicML program must be loaded into the main memory starting at location 00 before executing. Each instruction written in BasicML occupies one word of the UVSim memory (instruction are signed four-digit decimal number). We shall assume that the sign of a BasicML instruction is always plus, but the sign of a data word may be either plus or minus. Each location in the UVSim memory may contain an instruction, a data value used by a program or an unused area of memory. The first two digits of each BasicML instruction are the operation code specifying the operation to be performed.
+Confirm that Python 3 or later is installed.
 
-BasicML vocabulary defined as follows:
+Call the python file from it's destination and give a text file for input. The text file should
+contain only properly formatted operation codes, four digit signed integers such as +1234 and -5678.
+
+The first two digits of the operation code specifies the operation selection.
+The final two digits of the operation codes specify the memory location.
+
+
+=================================
+=== UVSim: BasicML Vocabulary ===
+=================================
 
 I/O operation:
 READ = 10 Read a word from the keyboard into a specific location in memory.
@@ -26,6 +34,3 @@ BRANCH = 40 Branch to a specific location in memory
 BRANCHNEG = 41 Branch to a specific location in memory if the accumulator is negative.
 BRANCHZERO = 42 Branch to a specific location in memory if the accumulator is zero.
 HALT = 43 Pause the program
-
-The last two digits of a BasicML instruction are the operand – the address of the memory location containing the word to which the operation applies.
-Check out this new feature!
