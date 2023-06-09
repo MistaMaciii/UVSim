@@ -1,6 +1,7 @@
 """
-Wes James, CS 2450, 2023
-Sets up virtual machine and runs imported code
+UVSim - Simple Virtual Machine 
+Elena Mitchell, Justin Peeples, Mac Snow, Wes James
+Utah Valley University
 """
 def read(add):
     """Read a word from the keyboard into a specific location in memory"""
@@ -11,7 +12,6 @@ def read(add):
         print("incorrect length")
         read(add)
         return
-
     if (user_in[0] != '+') and (user_in[0] != '-'):   #if word doesn't start with + or - redo
         print("needs a + or - at beginning")
         read(add)
@@ -56,12 +56,38 @@ def mult(add):
 
 def branch(add):
     """Branch to a specific location in memory"""
+    if add > (len(mem)-1):
+        raise IndexError("Can't access memory at index " + str(add))
     global ip
     ip = int(add)    #set the instruction pointer to the memory address that was passed through
+
+def branch_neg(add):
+    """Branch to a specific location in memory if accumulator is negative"""
+    if add > (len(mem)-1):
+        raise IndexError("Can't access memory at index " + str(add))
+    global ip
+    global acc
+    if acc < 0:
+        ip = int(add)    #set the instruction pointer to the memory address that was passed through
+
+def branch_zero(add):
+    """Branch to a specific location in memory if accumulator is zero"""
+    if add > (len(mem)-1):
+        raise IndexError("Can't access memory at index " + str(add))
+    global ip
+    global acc
+    if acc == 0:
+        ip = int(add)    #set the instruction pointer to the memory address that was passed through
+    
+def halt():
+    global halt_status
+    halt_status = True
 
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
 ip = 0      #initializes the intruction pointer
+halt_status = False
+
 line = 1
 if __name__ == '__main__':
     file = input("What is your file name?: ")   #gets file name from user
@@ -79,7 +105,6 @@ if __name__ == '__main__':
             raise ValueError("incorrect input format on line " + str(line))
 
         mem.append(word)    #append the word to memory
-        #print(mem[-1])
         line += 1
     f.close()
     while ip < len(mem):            #runs the code
@@ -89,8 +114,6 @@ if __name__ == '__main__':
             continue
         op_code = curr_word[1:3]    #split op code and memory address into 2 variables
         mem_add = int(curr_word[3:])
-        #print(op_code)
-        #print(mem_add)
         if op_code == "10":     #read from keyboard into memory
             read(mem_add)
         elif op_code == "11":   #write from memory to screen
@@ -111,14 +134,12 @@ if __name__ == '__main__':
             branch(mem_add)
             continue
         elif op_code == "41":   #branch if accumulator is negative
-            if acc < 0:
-                branch(mem_add)
-                continue
+            branch_neg(mem_add)
+            continue
         elif op_code == "42":   #branch if the accumulator is zero
-            if int(curr_word[1:]) == 0:
-                branch(mem_add)
-                continue
+            branch_zero(mem_add)
+            continue
         elif op_code == "43":   #pause the program
-            break
-
+            halt()
+            if halt_status == True: break
         ip += 1     #go to the next word

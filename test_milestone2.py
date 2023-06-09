@@ -50,3 +50,59 @@ def test_read_fail(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: "+1097")
     with pytest.raises(IndexError):
         main.read(20)
+
+def test_branch_pass():
+    main.ip = 0
+    main.acc = 0
+    main.mem = ['1110','1109','1108','1107','1106','4006','1110', '-99999']
+    main.branch(6)
+    assert main.ip == 6
+    
+def test_branch_fail():
+    main.ip = 0
+    main.acc = 0
+    main.mem = ['1110','1109','1108','1107','1106','4006','1110', '-99999']
+    with pytest.raises(IndexError):
+        main.branch(20)
+
+def test_branch_neg_pass():
+    main.ip = 0
+    main.acc = -1745
+    main.mem = ['1110','1109','1108','1107','4106','1106','1110','1110','1110','-99999']
+    main.branch_neg(3)
+    assert main.ip == 3
+
+def test_branch_neg_fail():
+    main.ip = 0
+    main.acc = -9999
+    main.mem = ['1110','1109','1108','1107','4106','1110','1110','1110','1110','-99999']
+    with pytest.raises(IndexError):
+        main.branch_neg(20)
+    
+def test_branch_zero_pass():
+    main.ip = 0
+    main.acc = 0
+    main.mem = ['1110','4206','1108','1107','1106','1110','1110','1110','-99999']
+    main.branch_zero(6)
+    assert main.ip == 6
+
+def test_branch_zero_fail():
+    main.ip = 0
+    main.acc= 0
+    main.mem = ['1110','4206','1108','1107','1100','4206','1110','1110', '4007' '-99999']
+    with pytest.raises(IndexError):
+        main.branch_zero(20)
+
+def test_halt_pass():
+    main.ip = 0
+    main.acc = 0
+    main.mem = ['4300','4200','1108','1107','1106','1110','1110','1110','-99999']
+    main.halt()
+    assert main.halt_status == True
+
+def test_halt_fail():
+    main.ip = 0
+    main.acc = 0
+    main.mem = ['4300','4300','1108','1107','1106','1110','1110','1110','-99999']
+    main.halt()
+    assert main.halt_status != False
