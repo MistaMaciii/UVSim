@@ -59,7 +59,7 @@ def branch(add):
     if add > (len(mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
     global ip
-    ip = int(add)    #set the instruction pointer to the memory address that was passed through
+    ip = int(add) - 1   #set the instruction pointer to the memory address that was passed through
 
 def branch_neg(add):
     """Branch to a specific location in memory if accumulator is negative"""
@@ -68,7 +68,7 @@ def branch_neg(add):
     global ip
     global acc
     if acc < 0:
-        ip = int(add)    #set the instruction pointer to the memory address that was passed through
+        ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
 
 def branch_zero(add):
     """Branch to a specific location in memory if accumulator is zero"""
@@ -77,11 +77,12 @@ def branch_zero(add):
     global ip
     global acc
     if acc == 0:
-        ip = int(add)    #set the instruction pointer to the memory address that was passed through
+        ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
     
 def halt():
     global halt_status
     halt_status = True
+    print("halting...")
 
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
@@ -132,13 +133,10 @@ if __name__ == '__main__':
             mult(mem_add)
         elif op_code == "40":   #branch to location in memory
             branch(mem_add)
-            continue
         elif op_code == "41":   #branch if accumulator is negative
             branch_neg(mem_add)
-            continue
         elif op_code == "42":   #branch if the accumulator is zero
             branch_zero(mem_add)
-            continue
         elif op_code == "43":   #pause the program
             halt()
             if halt_status == True: break
