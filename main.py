@@ -28,11 +28,9 @@ def load(mem_load_location):
     #Load a word from a specific location in memory into the accumulator.
     global acc
     acc = mem[mem_load_location]
-    
 def store(mem_store_location):
     #Store a word from the accumulator into a specific location in memory.
     mem[mem_store_location] = acc  
-    
 def addit(add):
     global acc
     word_inmem = mem[add]   #the word in memory at the specified location
@@ -42,7 +40,6 @@ def addit(add):
     while addit_res >9999:
         addit_res = addit_res - 10000
     acc = addit_res #stores result in accumulator
-    
 def sub(add):
     global acc
     word_inmem = mem[add]
@@ -52,7 +49,6 @@ def sub(add):
     while sub_res >9999:
         sub_res = sub_res - 10000
     acc = sub_res
-
 def div(add):
     global acc
     word_inmem = mem[add]
@@ -64,7 +60,6 @@ def div(add):
     while div_res >9999:
         div_res = div_res - 10000
     acc = div_res
-
 def mult(add):
     global acc
     word_inmem = mem[add]
@@ -74,14 +69,12 @@ def mult(add):
     while mult_res >9999:
         mult_res = mult_res - 10000
     acc = mult_res
-
 def branch(add):
     """Branch to a specific location in memory"""
     if add > (len(mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
     global ip
     ip = int(add) - 1   #set the instruction pointer to the memory address that was passed through
-
 def branch_neg(add):
     """Branch to a specific location in memory if accumulator is negative"""
     if add > (len(mem)-1):
@@ -90,7 +83,6 @@ def branch_neg(add):
     global acc
     if acc < 0:
         ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
-
 def branch_zero(add):
     """Branch to a specific location in memory if accumulator is zero"""
     if add > (len(mem)-1):
@@ -99,17 +91,15 @@ def branch_zero(add):
     global acc
     if acc == 0:
         ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
-    
 def halt():
+    """Halts the program by setting the halt_status = True"""
     global halt_status
     halt_status = True
     print("halting...")
-
 acc = 0     #initializes the accumulator
 mem = []    #initializes the memory
 ip = 0      #initializes the intruction pointer
 halt_status = False
-
 line = 1
 if __name__ == '__main__':
     file = input("What is your file name?: ")   #gets file name from user
@@ -118,14 +108,11 @@ if __name__ == '__main__':
         if x in ("-99999"):
             f.close()
             break           #if word is -99999, stop reading and close the file
-
         word = x[0:-1]      #set word to one smaller than word length to remove newline
         if len(word) != 5:   #if word is longer than 5 chars throw an error
             raise ValueError("incorrect input format on line " + str(line))
-
         if (word[0] != '+') and (word[0] != '-'):   #if word doesn't start with + or - throw an error
             raise ValueError("incorrect input format on line " + str(line))
-
         mem.append(word)    #append the word to memory
         line += 1
     f.close()
