@@ -36,23 +36,44 @@ def store(mem_store_location):
 def addit(add):
     global acc
     word_inmem = mem[add]   #the word in memory at the specified location
-    addit_res = (int(word_inmem) + int(acc)) #adds the int of the word in mem and the word in the accumulator
+    addit_res = (int(word_inmem) + int(acc)) #adds the int of the word in mem and the word in the accumulator where the result is then stored
+    while addit_res <-9999:
+        addit_res = addit_res + 10000
+    while addit_res >9999:
+        addit_res = addit_res - 10000
     acc = addit_res #stores result in accumulator
+    
 def sub(add):
     global acc
     word_inmem = mem[add]
-    addit_res = ( int(acc) - int(word_inmem)) #subtracts the int of the word in mem from the word in the accumulator
-    acc = addit_res
+    sub_res = ( int(acc) - int(word_inmem)) #subtracts the int of the word in mem from the word in the accumulator where the result is then stTestored
+    while sub_res <-9999:
+        sub_res = sub_res + 10000
+    while sub_res >9999:
+        sub_res = sub_res - 10000
+    acc = sub_res
+
 def div(add):
     global acc
     word_inmem = mem[add]
-    addit_res = ( int(acc) / int(word_inmem)) #divides the word in the accumulator by the int of the word in mem
-    acc = addit_res
+    if word_inmem == "0000":
+        raise ZeroDivisionError("Value in accumulator cannot be divided by zero value at index " + str(add))
+    div_res = ( int(acc) // int(word_inmem)) #floor divides the word in the accumulator by the int of the word in mem where the result is then stored
+    while div_res <-9999:
+        div_res = div_res + 10000
+    while div_res >9999:
+        div_res = div_res - 10000
+    acc = div_res
+
 def mult(add):
     global acc
     word_inmem = mem[add]
-    addit_res = (int(word_inmem) * int(acc)) #multiplies the int of the word in mem and the word in the accumulator
-    acc = addit_res
+    mult_res = (int(word_inmem) * int(acc)) #multiplies the int of the word in mem and the word in the accumulator where the result is then stored
+    while mult_res <-9999:
+        mult_res = mult_res + 10000
+    while mult_res >9999:
+        mult_res = mult_res - 10000
+    acc = mult_res
 
 def branch(add):
     """Branch to a specific location in memory"""

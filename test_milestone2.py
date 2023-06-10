@@ -51,6 +51,54 @@ def test_read_fail(monkeypatch):
     with pytest.raises(IndexError):
         main.read(20)
 
+def test_addit_pass():
+    main.acc = "-1234"
+    main.mem = [+0000, +0000]  
+    main.addit(1)
+    assert main.acc == -1234
+
+def test_addit_fail():
+    main.acc = "40000"
+    main.mem = [+0000, +1234]  
+    main.addit(1)
+    assert main.acc == +1234
+
+def test_sub_pass():
+    main.acc = "0000"
+    main.mem = [+0000, -1234]  
+    main.sub(1)
+    assert main.acc == +1234
+
+def test_sub_fail():
+    main.acc = "-5678"
+    main.mem = [+0000, +5678]  
+    main.sub(1)
+    assert main.acc == -1356
+
+def test_div_pass():
+    main.acc = "0000"
+    main.mem = [+0000, +1000]  
+    main.div(1)
+    assert main.acc == 0
+
+def test_div_fail():
+    main.acc = "-1234"
+    main.mem = [+0000, +0000]  
+    with pytest.raises(ZeroDivisionError):
+        main.div(1)
+
+def test_mult_pass():
+    main.acc = "+1234"
+    main.mem = [+0000, +0000]  
+    main.mult(1)
+    assert main.acc == +0000
+
+def test_mult_fail():
+    main.acc = "4444"
+    main.mem = [+0000, +4444]  
+    main.mult(1)
+    assert main.acc == +9136
+
 def test_branch_pass():
     main.ip = 0
     main.acc = 0
