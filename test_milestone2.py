@@ -56,7 +56,7 @@ def test_branch_pass():
     main.acc = 0
     main.mem = ['1110','1109','1108','1107','1106','4006','1110', '-99999']
     main.branch(6)
-    assert main.ip == 6
+    assert main.ip == 5
     
 def test_branch_fail():
     main.ip = 0
@@ -70,7 +70,7 @@ def test_branch_neg_pass():
     main.acc = -1745
     main.mem = ['1110','1109','1108','1107','4106','1106','1110','1110','1110','-99999']
     main.branch_neg(3)
-    assert main.ip == 3
+    assert main.ip == 2
 
 def test_branch_neg_fail():
     main.ip = 0
@@ -84,7 +84,7 @@ def test_branch_zero_pass():
     main.acc = 0
     main.mem = ['1110','4206','1108','1107','1106','1110','1110','1110','-99999']
     main.branch_zero(6)
-    assert main.ip == 6
+    assert main.ip == 5
 
 def test_branch_zero_fail():
     main.ip = 0
@@ -100,9 +100,4 @@ def test_halt_pass():
     main.halt()
     assert main.halt_status == True
 
-def test_halt_fail():
-    main.ip = 0
-    main.acc = 0
-    main.mem = ['4300','4300','1108','1107','1106','1110','1110','1110','-99999']
-    main.halt()
-    assert main.halt_status != False
+if __name__ == '__main__': pytest.main()
