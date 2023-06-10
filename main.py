@@ -32,6 +32,7 @@ def store(mem_store_location):
     #Store a word from the accumulator into a specific location in memory.
     mem[mem_store_location] = acc  
 def addit(add):
+    """Add a word from a specific location in memory to the word in the accumulator (leave the result in the accumulator)"""
     global acc
     word_inmem = mem[add]   #the word in memory at the specified location
     addit_res = (int(word_inmem) + int(acc)) #adds the int of the word in mem and the word in the accumulator where the result is then stored
@@ -41,6 +42,7 @@ def addit(add):
         addit_res = addit_res - 10000
     acc = addit_res #stores result in accumulator
 def sub(add):
+    """Subtract a word from a specific location in memory from the word in the accumulator (leave the result in the accumulator)"""
     global acc
     word_inmem = mem[add]
     sub_res = ( int(acc) - int(word_inmem)) #subtracts the int of the word in mem from the word in the accumulator where the result is then stTestored
@@ -50,6 +52,7 @@ def sub(add):
         sub_res = sub_res - 10000
     acc = sub_res
 def div(add):
+    """Divide the word in the accumulator by a word from a specific location in memory (leave the result in the accumulator)."""
     global acc
     word_inmem = mem[add]
     if word_inmem == "0000":
@@ -61,6 +64,7 @@ def div(add):
         div_res = div_res - 10000
     acc = div_res
 def mult(add):
+    """Multiply a word from a specific location in memory to the word in the accumulator (leave the result in the accumulator)."""
     global acc
     word_inmem = mem[add]
     mult_res = (int(word_inmem) * int(acc)) #multiplies the int of the word in mem and the word in the accumulator where the result is then stored
@@ -92,7 +96,7 @@ def branch_zero(add):
     if acc == 0:
         ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
 def halt():
-    """Halts the program by setting the halt_status = True"""
+    """Pause the program"""
     global halt_status
     halt_status = True
     print("halting...")
