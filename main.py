@@ -33,40 +33,46 @@ Utah Valley University
 #     button.clicked.connect(thread.start)
 
 #     app.exec_()
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtWidgets import QApplication, QPushButton, QMainWindow
+import UVSim
+import sys
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar
+from PyQt6.QtGui import QAction, QIcon
+from PyQt6.QtCore import Qt
 
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
 
-        self.button_is_checked = True
+    def __init__(self):
+        super(MainWindow, self).__init__()
 
         self.setWindowTitle("UVSim")
-        
-        self.button = QPushButton("Run Program")
-        self.button.setCheckable(True)
-        self.button.released.connect(self.isReleased)
-        self.button.setChecked(self.button_is_checked)
-        self.button.clicked.connect(self.isClicked)
-        self.button.clicked.connect(self.isToggled)
-        self.setFixedSize(QSize(200,100))
-        self.setCentralWidget(self.button)
-    
-    def isClicked(self):
-        print("Button Clicked")
-    
-    def isToggled(self, toggle):
-        print("Toggle State: ", toggle)
+        label = QLabel("")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-    def isReleased(self):
-        self.button_is_checked = self.button.isChecked()
+        self.setCentralWidget(label)
+
+        toolbar = QToolBar("Menu")
+        self.addToolBar(toolbar)
+        self.button_is_checked = False
+        self.button_run_program = QAction("Run", self)
+        self.button_run_program.setStatusTip("Run the file through UVSim")
+        self.button_run_program.triggered.connect(self.onToolBarButtonClick)
+        toolbar.addAction(self.button_run_program)
+
+        self.setStatusBar(QStatusBar(self))
+
+    def onToolBarButtonClick(self):
+        if self.button_is_checked == False:
+            self.button_is_checked = True
+            uvSim = UVSim.UVSim()
+            uvSim.loadFile()
+            uvSim.runSystem()
+            self.button_is_checked = False     #reset button after system is finished
 
 def main():    
-    app = QApplication([])          #create instance of the app
-    window = MainWindow()           #create window
-    window.show()                   #window is hidden by default -- show
-    app.exec()                      #start event loop
+    app = QApplication(sys.argv)
+    w = MainWindow()
+    w.show()
+    app.exec()                    #start event loop
 
 if __name__ == '__main__':
     main()
