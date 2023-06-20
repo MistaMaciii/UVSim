@@ -147,5 +147,5 @@ def test_halt_pass():
     uvSim.ip = 0
     uvSim.acc = 0
     uvSim.mem = ['4300','4200','1108','1107','1106','1110','1110','1110','-99999']
-    Control_Operations.Control_Operations.halt()
+    Control_Operations.Control_Operations.halt(uvSim)
     assert uvSim.halt_status == True
