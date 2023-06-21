@@ -5,21 +5,23 @@ from Operations import LoadStore_Operations
 
 class UVSim:
   def __init__(self):
-    self.acc = 0     #initializes the accumulator
-    self.mem = ["-0000"] * 100   #initializes the memory
-    self.ip = 0      #initializes the intruction pointer
+
+    self.is_active = True          #initialize the is_active indicator
+    self.acc = 0                   #initializes the accumulator
+    self.mem = ["-0000"] * 100     #initializes the memory
+    self.ip = 0                    #initializes the intruction pointer
     self.halt_status = False
     self.line = 1
 
-  def loadFile(self):
-    file = input("What is your file name?: ")   #gets file name from user
+  def loadFile(self, path):
+    file = path                                 #grab file from path: pyqt6 widget --> windows dialog box
     f = open(file, "r", encoding="utf8")        #opens file
     for x in f:
       if x in ("-99999"):
         f.close()
-        break           #if word is -99999, stop reading and close the file
-      word = x[0:-1]      #set word to one smaller than word length to remove newline
-      if len(word) != 5:   #if word is longer than 5 chars throw an error
+        break                 #if word is -99999, stop reading and close the file
+      word = x[0:-1]          #set word to one smaller than word length to remove newline
+      if len(word) != 5:      #if word is longer than 5 chars throw an error
         raise ValueError("incorrect input format on line " + str(self.line))
       if (word[0] != '+') and (word[0] != '-'):   #if word doesn't start with + or - throw an error
         raise ValueError("incorrect input format on line " + str(self.line))
@@ -28,6 +30,8 @@ class UVSim:
     f.close()
 
   def runSystem(self):
+    self.ip = 0             #if the system resets, re initialize to 0
+    self.halt_status = False
     while self.ip < len(self.mem):
       curr_word = str(self.mem[self.ip]) #set curret word = to the word the IP is pointing to
       if curr_word[0] == "-": #if the first char is '-' then go to the next word
@@ -46,3 +50,5 @@ class UVSim:
         Control_Operations.Control_Operations.pickOperation(op_call, mem_loc, self)
         if self.halt_status == True: break
       self.ip += 1     #go to the next word
+    self.is_active = False    #set is_active to false after system has been run
+    self.halt_status = False  #reset halt_status
