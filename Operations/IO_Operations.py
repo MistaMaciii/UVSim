@@ -10,15 +10,14 @@ class IO_Operations:
     if add > len(UVSim.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
     user_in = input("Input a word(+1234): ")
-    if len(user_in) != 5:   #if word is not == 5 chars redo
+    if (len(user_in) == 4 and user_in.isdigit()):   #if word is not == 5 chars redo
+        UVSim.mem[add] = user_in
+    elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
+        UVSim.mem[add] = user_in
+    else:    
         print("incorrect length")
         IO_Operations.read(add)
         return
-    if (user_in[0] != '+') and (user_in[0] != '-'):   #if word doesn't start with + or - redo
-        print("needs a + or - at beginning")
-        IO_Operations.read(add)
-        return
-    UVSim.mem[add] = user_in
   
   def write(add, UVSim):
     """Write a word from a specific location in memory to screen"""
