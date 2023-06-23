@@ -1,7 +1,4 @@
-from PyQt6.QtCore import QObject, pyqtSignal
-
 class IO_Operations:
-
   def pickOperation(operation, memLoc, UVSim):
     if operation == "0":
       IO_Operations.read(memLoc, UVSim)
