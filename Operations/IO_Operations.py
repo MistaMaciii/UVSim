@@ -1,7 +1,6 @@
 from PyQt6.QtCore import QObject, pyqtSignal
 
-class IO_Operations(QObject):
-  consoleOutput = pyqtSignal(str)
+class IO_Operations:
 
   def pickOperation(operation, memLoc, UVSim):
     if operation == "0":
