@@ -1,7 +1,7 @@
 import UVSim
 import sys
 import io
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt, pyqtSignal, QObject, QMetaObject
 from PyQt6.QtGui import QTextCursor
@@ -21,13 +21,24 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
         self.setCentralWidget(main_widget)
         main_widget.setLayout(main_layout)
-
         # Set main window
         self.setWindowTitle("UVSim")
         label = QLabel("")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setFixedSize(800, 450)
 
+        #label for memory contents
+        mem_label = QLabel("Memory")
+        main_layout.addWidget(mem_label)
+
+        #Set textedit to display memory contents
+        self.memory_textedit = QTextEdit()
+        self.memory_textedit.setReadOnly(True)
+
+        #add QTextEdit to the QVBoxLayout
+        main_layout.addWidget(self.memory_textedit)
+
+  
         # Set toolbar
         toolbar = QToolBar("Menu")
         self.addToolBar(toolbar)
@@ -55,6 +66,10 @@ class MainWindow(QMainWindow):
         console_output.setReadOnly(True)
         main_layout.addWidget(console_output)
 
+    def update_memory_display(self, mem):
+        memory_text ="\n".join(mem)
+        self.memory_textedit.setPlainText(memory_text)
+
     def onToolBarFileButtonClick(self):
         if self.button_is_checked == False:
             self.button_is_checked = True
@@ -64,7 +79,8 @@ class MainWindow(QMainWindow):
                 directory=".",
                 filter="All Files (*)")
             self.uvSim.loadFile(self.file_path)
-            
+            mem = self.uvSim.mem #prints memory after loading file
+            self.update_memory_display(mem) 
             self.button_is_checked = False  # reset button after system is finished
     
     def onToolBarRunButtonClick(self):
@@ -78,6 +94,7 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
+    uv_sim = UVSim.UVSim()
     w = MainWindow()
     w.show()  # show main window
     sys.exit(app.exec())  # start event loop
