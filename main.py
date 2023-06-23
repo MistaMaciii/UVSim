@@ -9,9 +9,7 @@ from PyQt6.QtGui import QTextCursor
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-
-        # Initialize UVSim
-        self.uvSim = UVSim.UVSim()
+        
 
         # Initialize file_path
         self.file_path = False
@@ -71,6 +69,7 @@ class MainWindow(QMainWindow):
         self.memory_textedit.setPlainText(memory_text)
 
     def onToolBarFileButtonClick(self):
+        self.uvSim = UVSim.UVSim()      #initialize UVSim every file load
         if self.button_is_checked == False:
             self.button_is_checked = True
             file_dialog = QFileDialog()
@@ -79,6 +78,7 @@ class MainWindow(QMainWindow):
                 directory=".",
                 filter="All Files (*)")
             self.uvSim.loadFile(self.file_path)
+            self.memory_textedit.clear()
             mem = self.uvSim.mem #prints memory after loading file
             self.update_memory_display(mem) 
             self.button_is_checked = False  # reset button after system is finished
@@ -94,7 +94,6 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
-    uv_sim = UVSim.UVSim()
     w = MainWindow()
     w.show()  # show main window
     sys.exit(app.exec())  # start event loop

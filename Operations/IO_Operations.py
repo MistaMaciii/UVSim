@@ -11,9 +11,9 @@ class IO_Operations:
         raise IndexError("Can't access memory at index " + str(add))
     user_in = input("Input a word(+1234): ")
     if (len(user_in) == 4 and user_in.isdigit()):   #if word is not == 5 chars redo
-        UVSim.mem[add] = user_in
+        UVSim.mem[add] = str(user_in)
     elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
-        UVSim.mem[add] = user_in
+        UVSim.mem[add] = str(user_in)
     else:    
         print("incorrect length")
         IO_Operations.read(add)   #TypeError: IO_Operations.read() missing 1 required positional argument: 'UVSim' when incorrect length
