@@ -1,4 +1,8 @@
-class IO_Operations:
+from PyQt6.QtCore import QObject, pyqtSignal
+
+class IO_Operations(QObject):
+  consoleOutput = pyqtSignal(str)
+
   def pickOperation(operation, memLoc, UVSim):
     if operation == "0":
       IO_Operations.read(memLoc, UVSim)

@@ -1,4 +1,5 @@
 import UVSim
+from Operations import IO_Operations
 import sys
 import io
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit
@@ -10,7 +11,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         
-
         # Initialize file_path
         self.file_path = False
 
@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout()
         self.setCentralWidget(main_widget)
         main_widget.setLayout(main_layout)
+
         # Set main window
         self.setWindowTitle("UVSim")
         label = QLabel("")
@@ -35,7 +36,6 @@ class MainWindow(QMainWindow):
 
         #add QTextEdit to the QVBoxLayout
         main_layout.addWidget(self.memory_textedit)
-
   
         # Set toolbar
         toolbar = QToolBar("Menu")
@@ -59,10 +59,13 @@ class MainWindow(QMainWindow):
 
         self.setStatusBar(QStatusBar(self))
 
-        #Add Console Output
-        console_output = QLineEdit()
-        console_output.setReadOnly(True)
-        main_layout.addWidget(console_output)
+        # Add the Console Output View
+        self.console_output = QPlainTextEdit()
+        self.console_output.setReadOnly(True)
+        main_layout.addWidget(self.console_output)
+
+    def writeToConsole(self, text):
+        self.console_output.appendPlainText(str(text))
 
     def update_memory_display(self, mem):
         memory_text ="\n".join(mem)
