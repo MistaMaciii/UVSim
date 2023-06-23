@@ -16,7 +16,7 @@ class IO_Operations:
         UVSim.mem[add] = user_in
     else:    
         print("incorrect length")
-        IO_Operations.read(add)
+        IO_Operations.read(add)   #TypeError: IO_Operations.read() missing 1 required positional argument: 'UVSim' when incorrect length
         return
   
   def write(add, UVSim):
