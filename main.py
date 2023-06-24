@@ -106,9 +106,7 @@ class MainWindow(QMainWindow):
             if self.button_is_checked == False:
                 self.button_is_checked = True
                 self.console_output.clear() 
-                user_input, ok = QInputDialog.getText(self, "Input", "Enter a word (+1234):")
-                if ok:
-                    self.uvSim.runSystem(user_input)
+                self.uvSim.runSystem()
                 self.updateConsoleDisplay()
                 self.button_is_checked = False  # reset button after system is finished
 
