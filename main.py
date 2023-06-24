@@ -11,10 +11,12 @@ from PyQt6.QtGui import QTextCursor
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        
+
+        # Initialize UVSim
+        self.uvSim = UVSim.UVSim()
         # Initialize file_path
         self.file_path = False
-
+        # Initialize output string
         self.uvSimOut = ""
 
         # Main Layout
@@ -27,7 +29,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("UVSim")
         label = QLabel("")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setFixedSize(800, 900)
+        self.setFixedSize(500, 550)
 
         #label for memory contents
         mem_label = QLabel("Memory")
@@ -69,6 +71,12 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(console_label)
         main_layout.addWidget(self.console_output)
 
+        # Add the Console Input View
+        input_label = QLabel("Console Input")
+        main_layout.addWidget(input_label)
+        self.input_line = QLineEdit() 
+        main_layout.addWidget(self.input_line)
+
     def updateConsoleDisplay(self):    
         self.uvSimOut = self.uvSim.output
         self.console_output.setPlainText(self.uvSimOut) #update text
@@ -90,10 +98,13 @@ class MainWindow(QMainWindow):
             self.memory_textedit.clear()
             mem = self.uvSim.mem #prints memory after loading file
             self.update_memory_display(mem) 
+            self.updateConsoleDisplay()
             self.button_is_checked = False  # reset button after system is finished
     
     def onToolBarRunButtonClick(self):
         if self.file_path == False:  # check if file_path exists
+            self.uvSimOut += "No file selected. Please select a file\n"
+            self.console_output.setPlainText(self.uvSimOut)
             print("No file selected. Please select a file")
         else:
             if self.button_is_checked == False:
