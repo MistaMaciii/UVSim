@@ -3,7 +3,7 @@ from Operations import IO_Operations
 import sys
 import io
 from contextlib import redirect_stdout
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt, pyqtSignal, QObject, QMetaObject
 from PyQt6.QtGui import QTextCursor
@@ -110,7 +110,9 @@ class MainWindow(QMainWindow):
             if self.button_is_checked == False:
                 self.button_is_checked = True
                 self.console_output.clear() 
-                self.uvSim.runSystem()
+                user_input, ok = QInputDialog.getText(self, "Input", "Enter a word (+1234):")
+                if ok:
+                    self.uvSim.runSystem(user_input)
                 self.updateConsoleDisplay()
                 self.button_is_checked = False  # reset button after system is finished
 
