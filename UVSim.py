@@ -5,7 +5,7 @@ from Operations import LoadStore_Operations
 
 class UVSim:
   def __init__(self):
-
+    self.output = ""
     self.is_active = True          #initialize the is_active indicator
     self.acc = 0                   #initializes the accumulator
     self.mem = ["-0000"] * 100     #initializes the memory

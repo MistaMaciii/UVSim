@@ -2,6 +2,7 @@ import UVSim
 from Operations import IO_Operations
 import sys
 import io
+from contextlib import redirect_stdout
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt, pyqtSignal, QObject, QMetaObject
@@ -14,6 +15,8 @@ class MainWindow(QMainWindow):
         # Initialize file_path
         self.file_path = False
 
+        self.uvSimOut = ""
+
         # Main Layout
         main_widget = QWidget()
         main_layout = QVBoxLayout()
@@ -24,7 +27,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("UVSim")
         label = QLabel("")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setFixedSize(800, 450)
+        self.setFixedSize(800, 900)
 
         #label for memory contents
         mem_label = QLabel("Memory")
@@ -60,12 +63,15 @@ class MainWindow(QMainWindow):
         self.setStatusBar(QStatusBar(self))
 
         # Add the Console Output View
-        self.console_output = QPlainTextEdit()
+        console_label = QLabel("Console Output")
+        self.console_output = QTextEdit()
         self.console_output.setReadOnly(True)
+        main_layout.addWidget(console_label)
         main_layout.addWidget(self.console_output)
 
-    def writeToConsole(self, text):
-        self.console_output.appendPlainText(str(text))
+    def updateConsoleDisplay(self):    
+        self.uvSimOut = self.uvSim.output
+        self.console_output.setPlainText(self.uvSimOut) #update text
 
     def update_memory_display(self, mem):
         memory_text ="\n".join(mem)
@@ -92,7 +98,9 @@ class MainWindow(QMainWindow):
         else:
             if self.button_is_checked == False:
                 self.button_is_checked = True
+                self.console_output.clear() 
                 self.uvSim.runSystem()
+                self.updateConsoleDisplay()
                 self.button_is_checked = False  # reset button after system is finished
 
 def main():

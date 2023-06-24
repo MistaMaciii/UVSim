@@ -32,5 +32,6 @@ class Control_Operations:
   def halt(UVSim):
     """Pause the program"""
     UVSim.halt_status = True
+    UVSim.output += ("halting...\n")
     print("halting...")
 
