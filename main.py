@@ -1,12 +1,8 @@
 import UVSim
-from Operations import IO_Operations
 import sys
-import io
-from contextlib import redirect_stdout
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QPlainTextEdit, QMessageBox, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog
 from PyQt6.QtGui import QAction
-from PyQt6.QtCore import Qt, pyqtSignal, QObject, QMetaObject
-from PyQt6.QtGui import QTextCursor
+from PyQt6.QtCore import Qt
 
 class MainWindow(QMainWindow):
     def __init__(self):
