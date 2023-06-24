@@ -4,8 +4,15 @@
 
 Confirm that Python 3 or later is installed.
 
-Call the python file from it's destination and give a text file for input. The text file should
+Confirm that Pyqt6 is installed.
+
+Run main.py to start application
+Select File button, and select the test file wanted from its destination. The text file should
 contain only properly formatted operation codes, four digit signed integers such as +1234 and -5678.
+The contents of the file selected will then display to memory
+Select the Run button, this will trigger the function within the user's code editor terminal outside of the application
+Input words as prompted to code editor terminal
+Result is printed to the 'Console Output' widget in the application
 
 The first two digits of the operation code specifies the operation selection.
 The final two digits of the operation codes specify the memory location.
