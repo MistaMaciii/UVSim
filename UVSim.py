@@ -32,7 +32,7 @@ class UVSim:
       self.output += "No file selected. Please select a file\n"
       
 
-  def runSystem(self):
+  def runSystem(self, user_input):
     self.ip = 0             #if the system resets, re initialize to 0
     self.halt_status = False
     while self.ip < len(self.mem):
@@ -44,7 +44,7 @@ class UVSim:
       op_call = str(curr_word[2:3]) #split op code into operation of type
       mem_loc = int(curr_word[3:]) # get mem location from word
       if op_group == "1":
-        IO_Operations.IO_Operations.pickOperation(op_call, mem_loc, self)
+        IO_Operations.IO_Operations.pickOperation(op_call, mem_loc, self, user_input)
       elif op_group == "2":
         LoadStore_Operations.LoadStore_Operations.pickOperation(op_call, mem_loc, self)
       elif op_group == "3":

@@ -1,9 +1,9 @@
 import UVSim
 import sys
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog
+from Operations.IO_Operations import IO_Operations
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -27,17 +27,17 @@ class MainWindow(QMainWindow):
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setFixedSize(500, 550)
 
-        #label for memory contents
+        # Label for memory contents
         mem_label = QLabel("Memory")
         main_layout.addWidget(mem_label)
 
-        #Set textedit to display memory contents
+        # Set textedit to display memory contents
         self.memory_textedit = QTextEdit()
         self.memory_textedit.setReadOnly(True)
 
-        #add QTextEdit to the QVBoxLayout
+        # Add QTextEdit to the QVBoxLayout
         main_layout.addWidget(self.memory_textedit)
-  
+
         # Set toolbar
         toolbar = QToolBar("Menu")
         self.addToolBar(toolbar)
@@ -68,21 +68,24 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.console_output)
 
         # Add the Console Input View
-        input_label = QLabel("Console Input")
-        main_layout.addWidget(input_label)
-        self.input_line = QLineEdit() 
-        main_layout.addWidget(self.input_line)
 
-    def updateConsoleDisplay(self):    
+        self.input_line = QLineEdit()
+        self.input_line.returnPressed.connect(self.onInputButtonClick)  # Connect returnPressed signal
+        main_layout.addWidget(self.input_line)
+        input_button = QPushButton("Enter")
+        input_button.clicked.connect(self.onInputButtonClick)
+        main_layout.addWidget(input_button)
+
+    def updateConsoleDisplay(self):
         self.uvSimOut = self.uvSim.output
-        self.console_output.setPlainText(self.uvSimOut) #update text
+        self.console_output.append(self.uvSimOut)  # append new output
 
     def update_memory_display(self, mem):
-        memory_text ="\n".join(mem)
+        memory_text = "\n".join(mem)
         self.memory_textedit.setPlainText(memory_text)
 
     def onToolBarFileButtonClick(self):
-        self.uvSim = UVSim.UVSim()      #initialize UVSim every file load
+        self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
         if self.button_is_checked == False:
             self.button_is_checked = True
             file_dialog = QFileDialog()
@@ -92,11 +95,11 @@ class MainWindow(QMainWindow):
                 filter="All Files (*)")
             self.uvSim.loadFile(self.file_path)
             self.memory_textedit.clear()
-            mem = self.uvSim.mem #prints memory after loading file
-            self.update_memory_display(mem) 
+            mem = self.uvSim.mem  # prints memory after loading file
+            self.update_memory_display(mem)
             self.updateConsoleDisplay()
             self.button_is_checked = False  # reset button after system is finished
-    
+
     def onToolBarRunButtonClick(self):
         if self.file_path == False:  # check if file_path exists
             self.uvSimOut += "No file selected. Please select a file\n"
@@ -105,16 +108,29 @@ class MainWindow(QMainWindow):
         else:
             if self.button_is_checked == False:
                 self.button_is_checked = True
-                self.console_output.clear() 
-                self.uvSim.runSystem()
-                self.updateConsoleDisplay()
+                self.console_output.clear()
+                self.uvSimOut += "Input a word(+1234):" + "\n"
+                self.console_output.setPlainText(self.uvSimOut)  # update prompt
+                QApplication.processEvents()  # Force immediate update of the console output
                 self.button_is_checked = False  # reset button after system is finished
+
+                user_input = self.input_line.text()
+                self.input_line.clear()
+                
+                if user_input:
+                    self.uvSim.runSystem(user_input)
+                self.updateConsoleDisplay()
+
+    def onInputButtonClick(self):
+        self.onToolBarRunButtonClick()
+
 
 def main():
     app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
     w = MainWindow()
     w.show()  # show main window
     sys.exit(app.exec())  # start event loop
+
 
 if __name__ == '__main__':
     main()
