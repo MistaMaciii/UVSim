@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatus
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
 from Operations.IO_Operations import IO_Operations
+import UVSim
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
