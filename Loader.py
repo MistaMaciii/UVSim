@@ -1,6 +1,7 @@
+import Memory
 class Loader:
     def __init__(self):
-        self.mem = ["-0000"] * 100     #initializes the memory
+        self.memory = Memory.Memory()     #initializes the memory
         self.line = 1
         self.output = ""
     def load_file(self, path):
@@ -16,8 +17,8 @@ class Loader:
                         raise ValueError("incorrect input format on line " + str(self.line))
                     if (word[0] != '+') and (word[0] != '-'):   #if word doesn't start with + or - throw an error
                         raise ValueError("incorrect input format on line " + str(self.line))
-                    self.mem[self.line - 1] = word     #add the word to memory at line minus 1
+                    self.memory.mem[self.line - 1] = word     #add the word to memory at line minus 1
                     self.line += 1
         except FileNotFoundError:
             self.output += "No file selected. Please select a file\n"
-        return self.mem
+        return self.memory.mem
