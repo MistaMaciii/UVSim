@@ -1,10 +1,6 @@
-import UVSim
 import sys
 import gui
-from Operations.IO_Operations import IO_Operations
-from PyQt6.QtGui import QAction
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
+from PyQt6.QtWidgets import QApplication
 
 
 
