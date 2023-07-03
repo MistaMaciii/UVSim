@@ -50,7 +50,7 @@ class UVSim:
       elif op_group == "3":
         Arithmetic_Operations.Arithmetic_Operations.pickOperation(op_call, mem_loc, self.memory)
       elif op_group == "4":
-        Control_Operations.Control_Operations.pickOperation(op_call, mem_loc, self.memory)
+        Control_Operations.Control_Operations.pickOperation(op_call, mem_loc, self.memory, self)
         if self.halt_status == True: break
       self.ip += 1     #go to the next word
     self.is_active = False    #set is_active to false after system has been run

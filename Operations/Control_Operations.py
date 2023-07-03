@@ -1,37 +1,37 @@
 class Control_Operations:
-  def pickOperation(operation, memLoc, UVSim):
+  def pickOperation(operation, memLoc, Memory, UVSim):
     if operation == "0":
-      Control_Operations.branch(memLoc, UVSim)
+      Control_Operations.branch(memLoc, Memory)
     elif operation == "1":
-      Control_Operations.branch_neg(memLoc, UVSim)
+      Control_Operations.branch_neg(memLoc, Memory)
     elif operation == "2":
-      Control_Operations.branch_zero(memLoc, UVSim)
+      Control_Operations.branch_zero(memLoc, Memory)
     elif operation == "3":
-      Control_Operations.halt(UVSim)
+      Control_Operations.halt(Memory, UVSim)
   
-  def branch(add, UVSim):
+  def branch(add, Memory):
     """Branch to a specific location in memory"""
-    if add > (len(UVSim.mem)-1):
+    if add > (len(Memory.mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
-    UVSim.ip = int(add) - 1   #set the instruction pointer to the memory address that was passed through
+    Memory.ip = int(add) - 1   #set the instruction pointer to the memory address that was passed through
     
-  def branch_neg(add, UVSim):
+  def branch_neg(add, Memory):
     """Branch to a specific location in memory if accumulator is negative"""
-    if add > (len(UVSim.mem)-1):
+    if add > (len(Memory.mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
-    if UVSim.acc < 0:
-        UVSim.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
+    if Memory.acc < 0:
+        Memory.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
   
-  def branch_zero(add, UVSim):
+  def branch_zero(add, Memory):
     """Branch to a specific location in memory if accumulator is zero"""
-    if add > (len(UVSim.mem)-1):
+    if add > (len(Memory.mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
-    if UVSim.acc == 0:
-        UVSim.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
+    if Memory.acc == 0:
+        Memory.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
   
-  def halt(UVSim):
+  def halt(Memory, UVSim):
     """Pause the program"""
-    UVSim.halt_status = True
+    Memory.halt_status = True
     UVSim.output += ("halting...\n")
     print("halting...")
 
