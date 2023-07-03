@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
                 filter="All Files (*)")
             self.loader.load_file(self.file_path)
             self.memory_textedit.clear()
-            mem = self.uvSim.memory.mem  # prints memory after loading file
+            mem = self.loader.mem  # prints memory after loading file
             self.update_memory_display(mem)
             self.updateConsoleDisplay()
             self.button_is_checked = False  # reset button after system is finished
