@@ -2,12 +2,15 @@ from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatus
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
 import UVSim
+import Loader
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
         # Initialize UVSim
         self.uvSim = UVSim.UVSim()
+        # Initialize Loader
+        self.loader = Loader.Loader()
         # Initialize file_path
         self.file_path = False
         # Initialize output string
@@ -83,7 +86,7 @@ class MainWindow(QMainWindow):
         self.memory_textedit.setPlainText(memory_text)
 
     def onToolBarFileButtonClick(self):
-        self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
+        self.loader = Loader.Loader()  # initialize Loader every file load
         if self.button_is_checked == False:
             self.button_is_checked = True
             file_dialog = QFileDialog()
@@ -91,7 +94,7 @@ class MainWindow(QMainWindow):
                 caption="Select File",
                 directory=".",
                 filter="All Files (*)")
-            self.uvSim.loadFile(self.file_path)
+            self.loader.load_file(self.file_path)
             self.memory_textedit.clear()
             mem = self.uvSim.memory.mem  # prints memory after loading file
             self.update_memory_display(mem)
