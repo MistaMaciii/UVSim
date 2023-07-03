@@ -1,0 +1,25 @@
+MainWindow {
+    background-color: "#4C721D";
+}
+QToolBar{
+    background-color: "#ffffff";
+    border: 2px solid black;
+}
+QTextEdit{
+    background-color: "#ffffff";
+    border: 2px solid black;
+}
+QLineEdit{
+    background-color: "#ffffff";
+    border: 2px solid black;
+}
+QAction{
+    background-color: "#4C721D";
+}
+QPushButton{
+    background-color: "#ffffff";
+    color:  "black";
+}
+QLabel{
+    color:  "#ffffff";
+}
