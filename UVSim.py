@@ -2,16 +2,16 @@ from Operations import Arithmetic_Operations
 from Operations import Control_Operations
 from Operations import IO_Operations
 from Operations import LoadStore_Operations
+import Memory
 
 class UVSim:
   def __init__(self):
     self.output = ""
     self.is_active = True          #initialize the is_active indicator
-    self.acc = 0                   #initializes the accumulator
-    self.mem = ["-0000"] * 100     #initializes the memory
     self.ip = 0                    #initializes the intruction pointer
     self.halt_status = False
     self.line = 1
+    self.memory = Memory.Memory()
 
   def loadFile(self, path):
     file = path                                 #grab file from path: pyqt6 widget --> windows dialog box
@@ -26,7 +26,7 @@ class UVSim:
             raise ValueError("incorrect input format on line " + str(self.line))
           if (word[0] != '+') and (word[0] != '-'):   #if word doesn't start with + or - throw an error
             raise ValueError("incorrect input format on line " + str(self.line))
-          self.mem[self.line - 1] = word     #add the word to memory at line minus 1
+          self.memory.mem[self.line - 1] = word     #add the word to memory at line minus 1
           self.line += 1
     except FileNotFoundError:
       self.output += "No file selected. Please select a file\n"
@@ -35,8 +35,8 @@ class UVSim:
   def runSystem(self, user_input):
     self.ip = 0             #if the system resets, re initialize to 0
     self.halt_status = False
-    while self.ip < len(self.mem):
-      curr_word = str(self.mem[self.ip]) #set curret word = to the word the IP is pointing to
+    while self.ip < len(self.memory.mem):
+      curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
       if curr_word[0] == "-": #if the first char is '-' then go to the next word
         self.ip += 1
         continue
@@ -44,13 +44,13 @@ class UVSim:
       op_call = str(curr_word[2:3]) #split op code into operation of type
       mem_loc = int(curr_word[3:]) # get mem location from word
       if op_group == "1":
-        IO_Operations.IO_Operations.pickOperation(op_call, mem_loc, self, user_input)
+        IO_Operations.IO_Operations.pickOperation(op_call, mem_loc, self.memory, user_input)
       elif op_group == "2":
-        LoadStore_Operations.LoadStore_Operations.pickOperation(op_call, mem_loc, self)
+        LoadStore_Operations.LoadStore_Operations.pickOperation(op_call, mem_loc, self.memory)
       elif op_group == "3":
-        Arithmetic_Operations.Arithmetic_Operations.pickOperation(op_call, mem_loc, self)
+        Arithmetic_Operations.Arithmetic_Operations.pickOperation(op_call, mem_loc, self.memory)
       elif op_group == "4":
-        Control_Operations.Control_Operations.pickOperation(op_call, mem_loc, self)
+        Control_Operations.Control_Operations.pickOperation(op_call, mem_loc, self.memory)
         if self.halt_status == True: break
       self.ip += 1     #go to the next word
     self.is_active = False    #set is_active to false after system has been run
