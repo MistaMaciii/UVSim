@@ -1,8 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt, QEventLoop
-import UVSim
-import Loader
 class MainWindow(QMainWindow):
     def __init__(self, uvSimCallerIn):
         super(MainWindow, self).__init__()
@@ -12,7 +10,7 @@ class MainWindow(QMainWindow):
 
         # Initialize file_path
         self.file_path = False
-        # Initialize output string
+ #       # Initialize output string
         self.uvSimOut = ""
         self.user_input = ""
 
@@ -23,26 +21,22 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(main_widget)
         main_widget.setLayout(main_layout)
 
-
         # Set main window
         self.setWindowTitle("UVSim")
         label = QLabel("")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setFixedSize(500, 550)
 
-
         # Label for memory contents
         mem_label = QLabel("Memory")
         main_layout.addWidget(mem_label)
 
-
         # Set textedit to display memory contents
-        self.memory_textedit = QTextEdit()
-        self.memory_textedit.setReadOnly(True)
-
+        # self.memory_textedit = QTextEdit()
+        # self.memory_textedit.setReadOnly(True)
 
         # Add QTextEdit to the QVBoxLayout
-        main_layout.addWidget(self.memory_textedit)
+        main_layout.addWidget(QTextEdit(readOnly = True))
 
 
         # Set toolbar
