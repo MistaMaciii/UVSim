@@ -24,6 +24,7 @@ class IO_Operations:
         return 1
         # IO_Operations.read(add, Memory)   #TypeError: IO_Operations.read() missing 1 required positional argument: 'Memory' when incorrect length
         # return
+    UVSim.window.update_memory_display(Memory.mem)
  
   def write(add, Memory):
     """Write a word from a specific location in memory to screen"""
