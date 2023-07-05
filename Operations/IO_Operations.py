@@ -10,9 +10,10 @@ class IO_Operations:
     UVSim.output += ("Input a word(+1234): \n")
     UVSim.window.updateConsoleDisplay()
     UVSim.window.wait_for_button()
+
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
-    user_in =  UVSim.window.input_line
+    user_in =  UVSim.window.user_input
     if (len(user_in) == 4 and user_in.isdigit()):   #if word is not == 5 chars redo
         Memory.mem[add] = str(user_in)
     elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
