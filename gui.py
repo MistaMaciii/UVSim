@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
 
 
         # Add the Console Input View
-        self.input_line = QLineEdit()
+        self.input_line = QLineEdit(self)
         self.input_label = QLabel("Console Input")
         main_layout.addWidget(self.input_label)
         self.input_line = QLineEdit()
@@ -151,6 +151,7 @@ class MainWindow(QMainWindow):
         if self.run_button_is_checked == True:
             QApplication.processEvents()
             self.user_input = self.input_line.text()
+            print("self", self.user_input)
             # self.process_input()
             self.updateConsoleDisplay()
            
