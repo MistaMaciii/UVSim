@@ -170,5 +170,5 @@ class MainWindow(QMainWindow):
         self.event_loop.exec()
 
     def update_displays(self):
-        self.update_memory_display(self)
-        self.updateConsoleDisplay(self)
+        self.update_memory_display()
+        self.updateConsoleDisplay()
