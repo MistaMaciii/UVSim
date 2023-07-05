@@ -84,8 +84,8 @@ class MainWindow(QMainWindow):
 
         # Add the Console Input View
         self.input_line = QLineEdit()
-        console_label = QLabel("Console Input")
-        main_layout.addWidget(self.input_line)
+        # input_label = QLabel("Console Input")
+        main_layout.addWidget(QLabel("Console Input"))
         self.input_line = QLineEdit()
         self.input_line.returnPressed.connect(self.onSubmit)  # Connect returnPressed signal
         self.input_line.selectionChanged.connect(self.onSubmit)
