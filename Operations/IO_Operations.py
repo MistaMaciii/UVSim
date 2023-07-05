@@ -20,8 +20,9 @@ class IO_Operations:
     elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
         Memory.mem[add] = str(user_in)
     else:    #error here
-        print("incorrect length")
-        return 1
+        UVSim.output += ("Invalid length try again.\n")
+        UVSim.window.updateConsoleDisplay()
+        IO_Operations.read(add, Memory, UVSim)
         # IO_Operations.read(add, Memory)   #TypeError: IO_Operations.read() missing 1 required positional argument: 'Memory' when incorrect length
         # return
  

@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt, QEventLoop
+#Things to do handle file and run clicked again. Reset memory and gui views
 class MainWindow(QMainWindow):
     def __init__(self, uvSimCallerIn):
         super(MainWindow, self).__init__()
@@ -13,7 +14,6 @@ class MainWindow(QMainWindow):
  #       # Initialize output string
         self.uvSimOut = ""
         self.user_input = ""
-
 
         # Main Layout
         main_widget = QWidget()
@@ -33,26 +33,18 @@ class MainWindow(QMainWindow):
 
         # Set textedit to display memory contents
         self.memory_textedit = QTextEdit(readOnly = True)
-        # self.memory_textedit.setReadOnly(True)
-
-        # Add QTextEdit to the QVBoxLayout
         main_layout.addWidget(self.memory_textedit)
-        # self.memory_textedit = main_layout.addWidget(QTextEdit(readOnly=True))
-
-
 
         # Set toolbar
         toolbar = QToolBar("Menu")
         self.addToolBar(toolbar)
         toolbar.setMovable(False)
 
-
         # Add the 'file' selector button to the toolbar
         self.button_file = QAction("File...")
         self.button_file.setStatusTip("Select the file to run")
         self.button_file.triggered.connect(self.onToolBarFileButtonClick)
         toolbar.addAction(self.button_file)
-
 
         # Add the 'run' button to the toolbar
         self.button_run_program = QAction("Run", self)
@@ -63,10 +55,7 @@ class MainWindow(QMainWindow):
 
         # Button 'Checker'
         self.run_button_is_checked = False
-
-
         self.setStatusBar(QStatusBar(self))
-
 
         # Add the Console Output View
         console_label = QLabel("Console Output")
@@ -74,7 +63,6 @@ class MainWindow(QMainWindow):
         self.console_output.setReadOnly(True)
         main_layout.addWidget(console_label)
         main_layout.addWidget(self.console_output)
-
 
         # Add the Console Input View
         self.input_line = QLineEdit()
@@ -88,18 +76,15 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.input_button)
         self.input_button.setVisible(False)
 
-
     def updateConsoleDisplay(self):
         self.uvSimOut = self.uvSimCaller.output
         self.console_output.append(self.uvSimOut)  # append new output
         self.console_output.setPlainText(self.uvSimOut)
         QApplication.processEvents()
 
-
     def update_memory_display(self):
         memory_text = "\n".join(self.uvSimCaller.memory.mem)
         self.memory_textedit.setPlainText(memory_text)
-
 
     def onToolBarFileButtonClick(self):
         # self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
@@ -145,14 +130,7 @@ class MainWindow(QMainWindow):
         if self.run_button_is_checked == True:
             QApplication.processEvents()
             self.user_input = self.input_line.text()
-            # self.input_line.clear()
-            # self.process_input()
             self.updateConsoleDisplay()
-           
-    def process_input(self):
-        while self.input_line.hasSelectedText() and len(self.input_line) > 3:        
-            self.user_input = self.input_line.text(self.input_line.textChanged)
-
 
     def close_event_loop(self):
         if self.event_loop is not None:
