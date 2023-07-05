@@ -10,7 +10,8 @@ class IO_Operations:
     UVSim.output += ("Input a word(+1234): \n")
     UVSim.window.updateConsoleDisplay()
     UVSim.window.wait_for_button()
-    UVSim.window.input_line.setPlainText()
+    UVSim.window.input_line.clear()
+    UVSim.window.input_line.clearFocus()
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
     user_in =  UVSim.window.user_input
