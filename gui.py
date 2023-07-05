@@ -154,7 +154,6 @@ class MainWindow(QMainWindow):
             print("self", self.user_input)
             # self.process_input()
             self.updateConsoleDisplay()
-            self.input_line.clear()
            
     def process_input(self):
         while self.input_line.hasSelectedText() and len(self.input_line) > 3:        
