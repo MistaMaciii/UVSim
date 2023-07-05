@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
 
 
         # Initialize UVSim
-        #self.uvSim = UVSim.UVSim()
+        self.uvSim = UVSim.UVSim()
         # Initialize Loader
         self.loader = Loader.Loader()
         # Initialize file_path
@@ -83,13 +83,17 @@ class MainWindow(QMainWindow):
 
 
         # Add the Console Input View
+
+        console_label = QLabel("Console Input")
+        main_layout.addWidget(self.input_line)
         self.input_line = QLineEdit()
         self.input_line.returnPressed.connect(self.onSubmit)  # Connect returnPressed signal
         self.input_line.selectionChanged.connect(self.onSubmit)
         main_layout.addWidget(self.input_line)
-        input_button = QPushButton("Enter")
-        input_button.clicked.connect(self.onSubmit)
-        main_layout.addWidget(input_button)
+        self.input_button = QPushButton("Enter")
+        self.input_button.clicked.connect(self.onSubmit)
+        main_layout.addWidget(self.input_button)
+        self.input_button.setVisible(False)
 
 
     def updateConsoleDisplay(self):
@@ -128,6 +132,7 @@ class MainWindow(QMainWindow):
             self.console_output.setPlainText(self.uvSimOut)
         else:
             if self.button_is_checked == False:
+                self.input_button.setVisible(True)
                 self.button_is_checked = True
                 self.console_output.clear()
                 self.console_output.setPlainText(self.uvSimOut)  # update prompt
