@@ -28,7 +28,7 @@ class UVSim:
   def runSystem(self):
     # self.ip = 0             #if the system resets, re initialize to 0 #commented out for gui
     self.halt_status = False
-    while self.ip < len(self.memory.mem):
+    while not self.halt_status:
       curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
       if curr_word[0] == "-": #if the first char is '-' then go to the next word
         self.ip += 1
