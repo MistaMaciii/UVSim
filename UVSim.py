@@ -3,6 +3,9 @@ from Operations import Control_Operations
 from Operations import IO_Operations
 from Operations import LoadStore_Operations
 import Memory
+import gui
+import sys
+from PyQt6.QtWidgets import QApplication
 
 
 class UVSim:
@@ -16,6 +19,10 @@ class UVSim:
     self.op_call = ""
     self.mem_loc = 0
     self.memory = Memory.Memory()
+    self.app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
+    self.window = gui.MainWindow()
+
+
 
   def runSystem(self):
     # self.ip = 0             #if the system resets, re initialize to 0 #commented out for gui
@@ -44,3 +51,9 @@ class UVSim:
       self.ip += 1     #go to the next word
     self.is_active = False    #set is_active to false after system has been run
     self.halt_status = False  #reset halt_status
+
+  def guiSetup(self):
+    with open("style.css", "r") as file:    #opens file for css styles
+        self.app.setStyleSheet(file.read())
+    self.window.show()  # show main window
+    sys.exit(self.app.exec())  # start event loop

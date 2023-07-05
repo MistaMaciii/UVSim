@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
 
 
         # Initialize UVSim
-        self.uvSim = UVSim.UVSim()
+        #self.uvSim = UVSim.UVSim()
         # Initialize Loader
         self.loader = Loader.Loader()
         # Initialize file_path
