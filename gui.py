@@ -7,11 +7,9 @@ class MainWindow(QMainWindow):
     def __init__(self, uvSimCallerIn):
         super(MainWindow, self).__init__()
 
-        self.uvSimCaller = uvSimCallerIn
         # Initialize UVSim
-        #self.uvSim = UVSim.UVSim()
-        # Initialize Loader
-        self.loader = Loader.Loader()
+        self.uvSimCaller = uvSimCallerIn
+
         # Initialize file_path
         self.file_path = False
         # Initialize output string
@@ -111,18 +109,21 @@ class MainWindow(QMainWindow):
 
     def onToolBarFileButtonClick(self):
         # self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
-        self.loader = Loader.Loader()  # initialize Loader every file load
+        self.uvSimCaller.loader = Loader.Loader()  # initialize Loader every file load
         if self.button_is_checked == False:
+            #Run Loader func
             self.button_is_checked = True
             file_dialog = QFileDialog()
             self.file_path, _ = file_dialog.getOpenFileName(
                 caption="Select File",
                 directory=".",
                 filter="All Files (*)")
-            self.loader.load_file(self.file_path)
+            self.uvSimCaller.loader.load_file(self.file_path)
+
+            self.uvSimCaller.runLoader(self.file_path)
+            
             self.memory_textedit.clear()
-            mem = self.loader.memory.mem  # prints memory after loading file
-            self.update_memory_display(mem)
+            self.update_memory_display(self.uvSimCaller.memory.mem)
             self.updateConsoleDisplay()
         self.button_is_checked = False  # reset button after system is finished
 

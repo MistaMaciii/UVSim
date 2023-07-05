@@ -6,7 +6,7 @@ import Memory
 import gui
 import sys
 from PyQt6.QtWidgets import QApplication
-
+import Loader
 
 class UVSim:
   def __init__(self):
@@ -21,6 +21,7 @@ class UVSim:
     self.memory = Memory.Memory()
     self.app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
     self.window = gui.MainWindow(self)
+    self.loader = Loader.Loader()
 
 
 
@@ -57,3 +58,8 @@ class UVSim:
         self.app.setStyleSheet(file.read())
     self.window.show()  # show main window
     sys.exit(self.app.exec())  # start event loop
+
+  def runLoader(self, file_path):
+    self.loader = Loader.Loader()  # initialize Loader every file load
+    self.loader.load_file(file_path)
+    self.memory.mem = self.loader.memory.mem  # prints memory after loading file
