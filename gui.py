@@ -32,12 +32,12 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(mem_label)
 
         # Set textedit to display memory contents
-        # self.memory_textedit = QTextEdit(readOnly = True)
+        self.memory_textedit = QTextEdit(readOnly = True)
         # self.memory_textedit.setReadOnly(True)
 
         # Add QTextEdit to the QVBoxLayout
-        # main_layout.addWidget(self.memory_textedit)
-        self.memory_textedit = main_layout.addWidget(QTextEdit(readOnly=True))
+        main_layout.addWidget(self.memory_textedit)
+        # self.memory_textedit = main_layout.addWidget(QTextEdit(readOnly=True))
 
 
 
