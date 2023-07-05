@@ -84,9 +84,10 @@ class MainWindow(QMainWindow):
 
         # Add the Console Input View
         self.input_line = QLineEdit()
-        # input_label = QLabel("Console Input")
-        main_layout.addWidget(QLabel("Console Input"))
+        self.input_label = QLabel("Console Input")
+        main_layout.addWidget(self.input_label)
         self.input_line = QLineEdit()
+        self.input_line.setReadOnly(True)
         self.input_line.returnPressed.connect(self.onSubmit)  # Connect returnPressed signal
         self.input_line.selectionChanged.connect(self.onSubmit)
         main_layout.addWidget(self.input_line)
@@ -132,6 +133,7 @@ class MainWindow(QMainWindow):
             self.console_output.setPlainText(self.uvSimOut)
         else:
             if self.button_is_checked == False:
+                self.input_line.setReadOnly(False)
                 self.input_button.setVisible(True)
                 self.button_is_checked = True
                 self.console_output.clear()
