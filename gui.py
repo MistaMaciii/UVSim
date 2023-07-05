@@ -82,14 +82,11 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.input_label)
         self.input_line = QLineEdit()
         self.input_line.setReadOnly(True)
-        self.input_line.returnPressed.connect(self.onSubmit)  # Connect returnPressed signal
-        self.input_line.selectionChanged.connect(self.onSubmit)
         main_layout.addWidget(self.input_line)
         self.input_button = QPushButton("Enter")
         self.input_button.clicked.connect(self.onSubmit)
         main_layout.addWidget(self.input_button)
         self.input_button.setVisible(False)
-        self.input_line.returnPressed.connect(self.handle_return_pressed)
 
 
     def updateConsoleDisplay(self):
@@ -169,5 +166,3 @@ class MainWindow(QMainWindow):
         self.update_memory_display()
         self.updateConsoleDisplay()
     
-    def handle_return_pressed(self):
-        return #Override enter pressed
