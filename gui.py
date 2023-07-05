@@ -150,7 +150,8 @@ class MainWindow(QMainWindow):
         self.close_event_loop()
         if self.run_button_is_checked == True:
             QApplication.processEvents()
-            self.process_input()
+            self.user_input = self.input_line.text()
+            # self.process_input()
             self.updateConsoleDisplay()
            
     def process_input(self):
