@@ -126,7 +126,7 @@ class MainWindow(QMainWindow):
         self.button_is_checked = False  # reset button after system is finished
 
     def onToolBarRunButtonClick(self):
-        self.uvSim = UVSim.UVSim()  # initialize UVSim every file run
+        # self.uvSim = UVSim.UVSim()  # initialize UVSim every file run
         if self.file_path == False:  # check if file_path exists
             self.uvSimOut += "No file selected. Please select a file\n"
             self.console_output.setPlainText(self.uvSimOut)
@@ -138,11 +138,11 @@ class MainWindow(QMainWindow):
                 self.console_output.setPlainText(self.uvSimOut)  # update prompt
                 QApplication.processEvents()  # Force immediate update of the console output
                 self.input_line.clear()
-                while self.uvSim.runSystem() == 0:
-                    # output to console "input please"
-                    self.updateConsoleDisplay()
+                # while self.uvSim.runSystem() == 0:
+                #     # output to console "input please"
+                #     self.updateConsoleDisplay()
             self.button_is_checked = False
-        self.uvSim = UVSim.UVSim() # reset UVSim after runsys finish
+        # self.uvSim = UVSim.UVSim() # reset UVSim after runsys finish
 
     def onSubmit(self):
         if self.button_is_checked == True:
