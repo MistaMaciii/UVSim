@@ -5,13 +5,13 @@ class IO_Operations:
     if operation == "1":
       IO_Operations.write(memLoc, Memory)
      
-  def read(add, Memory, user_input, UVSim):
+  def read(add, Memory, UVSim):
     """Read a word from the keyboard into a specific location in memory"""
     UVSim.output += ("Input a word(+1234): \n")
     UVSim.window.wait_for_button()
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
-    user_in =  user_input
+    user_in =  UVSim.window.input_line
     if (len(user_in) == 4 and user_in.isdigit()):   #if word is not == 5 chars redo
         Memory.mem[add] = str(user_in)
     elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
