@@ -32,6 +32,6 @@ class Control_Operations:
   def halt(Memory, UVSim):
     """Pause the program"""
     Memory.halt_status = True
-    UVSim.output += ("halting...\n")
+    # UVSim.output += ("halting...\n")
     print("halting...")
 

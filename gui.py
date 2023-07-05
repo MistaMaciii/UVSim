@@ -152,7 +152,6 @@ class MainWindow(QMainWindow):
             QApplication.processEvents()
             self.user_input = self.input_line.text()
             # self.input_line.clear()
-            print("self", self.user_input)
             # self.process_input()
             self.updateConsoleDisplay()
            
