@@ -1,13 +1,14 @@
 class IO_Operations:
-  def pickOperation(operation, memLoc, Memory):
-    # if operation == "0":
-    #   return 0
-       # IO_Operations.read(memLoc, Memory, user_input, UVSim)
+  def pickOperation(operation, memLoc, Memory, UVSim):
+    if operation == "0":
+      IO_Operations.read(memLoc, Memory, UVSim)
     if operation == "1":
       IO_Operations.write(memLoc, Memory)
      
-  def read(add, Memory, user_input):
+  def read(add, Memory, user_input, UVSim):
     """Read a word from the keyboard into a specific location in memory"""
+    UVSim.output += ("Input a word(+1234): \n")
+    UVSim.window.wait_for_button()
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
     user_in =  user_input

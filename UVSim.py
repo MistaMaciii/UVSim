@@ -37,11 +37,7 @@ class UVSim:
       self.op_call = str(curr_word[2:3]) #split op code into operation of type
       self.mem_loc = int(curr_word[3:]) # get mem location from word
       if self.op_group == "1":
-        if self.op_call == "0":
-            self.output += ("Input a word(+1234): ")
-            self.ip += 1
-            return 0
-        IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
+        IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
       elif self.op_group == "2":
         LoadStore_Operations.LoadStore_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
       elif self.op_group == "3":

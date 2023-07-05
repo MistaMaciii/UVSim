@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
 from PyQt6.QtGui import QAction
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QEventLoop
 import UVSim
 import Loader
 class MainWindow(QMainWindow):
@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
 
 
         # Button 'Checker'
-        self.button_is_checked = False
+        self.run_button_is_checked = False
 
 
         self.setStatusBar(QStatusBar(self))
@@ -109,10 +109,9 @@ class MainWindow(QMainWindow):
 
     def onToolBarFileButtonClick(self):
         # self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
-        self.uvSimCaller.loader = Loader.Loader()  # initialize Loader every file load
-        if self.button_is_checked == False:
+        if self.run_button_is_checked == False:
             #Run Loader func
-            self.button_is_checked = True
+            self.run_button_is_checked = True
             file_dialog = QFileDialog()
             self.file_path, _ = file_dialog.getOpenFileName(
                 caption="Select File",
@@ -125,7 +124,7 @@ class MainWindow(QMainWindow):
             self.memory_textedit.clear()
             self.update_memory_display(self.uvSimCaller.memory.mem)
             self.updateConsoleDisplay()
-        self.button_is_checked = False  # reset button after system is finished
+        self.run_button_is_checked = False  # reset button after system is finished
 
     def onToolBarRunButtonClick(self):
         # self.uvSim = UVSim.UVSim()  # initialize UVSim every file run
@@ -133,10 +132,10 @@ class MainWindow(QMainWindow):
             self.uvSimOut += "No file selected. Please select a file\n"
             self.console_output.setPlainText(self.uvSimOut)
         else:
-            if self.button_is_checked == False:
+            if self.run_button_is_checked == False:
                 self.input_line.setReadOnly(False)
                 self.input_button.setVisible(True)
-                self.button_is_checked = True
+                self.run_button_is_checked = True
                 self.console_output.clear()
                 self.console_output.setPlainText(self.uvSimOut)  # update prompt
                 QApplication.processEvents()  # Force immediate update of the console output
@@ -144,11 +143,12 @@ class MainWindow(QMainWindow):
                 while self.uvSimCaller.runSystem() == 0:
                     # output to console "input please"
                     self.updateConsoleDisplay()
-            self.button_is_checked = False
+            self.run_button_is_checked = False
         # self.uvSim = UVSim.UVSim() # reset UVSim after runsys finish
 
     def onSubmit(self):
-        if self.button_is_checked == True:
+        self.close_event_loop()
+        if self.run_button_is_checked == True:
             QApplication.processEvents()
             self.process_input()
             self.uvSimOut += self.user_input + "\n"
@@ -172,5 +172,12 @@ class MainWindow(QMainWindow):
             self.user_input = self.input_line.text(self.input_line.textChanged)
 
 
+    def close_event_loop(self):
+        if self.event_loop is not None:
+            self.event_loop.quit()
+
+    def wait_for_button(self):
+        self.event_loop = QEventLoop()
+        self.event_loop.exec()
 
 
