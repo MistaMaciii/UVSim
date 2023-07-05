@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
 
 
         # Add the Console Input View
-
+        self.input_line = QLineEdit()
         console_label = QLabel("Console Input")
         main_layout.addWidget(self.input_line)
         self.input_line = QLineEdit()
