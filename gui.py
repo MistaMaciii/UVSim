@@ -151,21 +151,7 @@ class MainWindow(QMainWindow):
         if self.run_button_is_checked == True:
             QApplication.processEvents()
             self.process_input()
-            self.uvSimOut += self.user_input + "\n"
             self.updateConsoleDisplay()
-            while UVSim.IO_Operations.IO_Operations.read(self.uvSim.mem_loc, self.uvSim.memory, self.user_input) == 1:
-                            #in error case of incorrect length
-                            self.uvSimOut += "incorrect length\nEnter new input below\n"
-                            self.updateConsoleDisplay()
-                            # self.input_line.clear()
-                            # self.process_input
-                            # self.updateConsoleDisplay()
-                            # self.uvSim.ip -= 1
-
-
-
-
-            self.user_input = ""
            
     def process_input(self):
         while self.input_line.hasSelectedText() and len(self.input_line) > 3:        

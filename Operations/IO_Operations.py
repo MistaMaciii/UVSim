@@ -8,6 +8,7 @@ class IO_Operations:
   def read(add, Memory, UVSim):
     """Read a word from the keyboard into a specific location in memory"""
     UVSim.output += ("Input a word(+1234): \n")
+    UVSim.window.updateConsoleDisplay()
     UVSim.window.wait_for_button()
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
