@@ -102,8 +102,8 @@ class MainWindow(QMainWindow):
         QApplication.processEvents()
 
 
-    def update_memory_display(self, mem):
-        memory_text = "\n".join(mem)
+    def update_memory_display(self):
+        memory_text = "\n".join(self.uvSimCaller.memory.mem)
         self.memory_textedit.setPlainText(memory_text)
 
 
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
             self.uvSimCaller.runLoader(self.file_path)
             
             self.memory_textedit.clear()
-            self.update_memory_display(self.uvSimCaller.memory.mem)
+            self.update_memory_display()
             self.updateConsoleDisplay()
         self.run_button_is_checked = False  # reset button after system is finished
 
@@ -168,4 +168,6 @@ class MainWindow(QMainWindow):
         self.event_loop = QEventLoop()
         self.event_loop.exec()
 
-
+    def update_displays(self):
+        self.update_memory_display(self)
+        self.updateConsoleDisplay(self)
