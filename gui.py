@@ -4,10 +4,10 @@ from PyQt6.QtCore import Qt
 import UVSim
 import Loader
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, uvSimCallerIn):
         super(MainWindow, self).__init__()
 
-
+        self.uvSimCaller = uvSimCallerIn
         # Initialize UVSim
         #self.uvSim = UVSim.UVSim()
         # Initialize Loader
