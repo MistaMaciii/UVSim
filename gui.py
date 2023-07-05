@@ -97,7 +97,7 @@ class MainWindow(QMainWindow):
 
 
     def updateConsoleDisplay(self):
-        self.uvSimOut = self.uvSim.output
+        self.uvSimOut = "HI"#self.uvSim.output
         self.console_output.append(self.uvSimOut)  # append new output
         self.console_output.setPlainText(self.uvSimOut)
         QApplication.processEvents()
