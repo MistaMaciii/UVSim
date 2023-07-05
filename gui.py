@@ -1,8 +1,56 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
 from PyQt6.QtGui import QAction
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6 import QtGui, QtWidgets
 import UVSim
 import Loader
+class ColorButton(QtWidgets.QPushButton):
+    '''
+    Custom Qt Widget to show a chosen color.
+
+    Left-clicking the button shows the color-chooser
+    '''
+
+    colorChanged = pyqtSignal(object)
+
+    def __init__(self, *args, color="#4C721D", **kwargs):
+        super(ColorButton, self).__init__(*args, **kwargs)
+
+        self._color = "#4C721D"
+        self._default = color
+        self._oldColor = color
+        self.pressed.connect(self.onColorPicker)
+
+        # Set the initial/default state.
+        self.setColor(self._default)
+
+    def setColor(self, color):
+        if color != self._color:
+            self._color = color
+            self.colorChanged.emit(color)
+
+        if self._color:
+            self.setStyleSheet("background-color: %s;" % self._color)
+        else:
+            self.setStyleSheet("")
+
+    def color(self):
+        return self._color
+
+    def onColorPicker(self):
+        '''
+        Show color-picker dialog to select color.
+
+        Qt will use the native dialog by default.
+
+        '''
+        dlg = QtWidgets.QColorDialog(self)
+        if self._color:
+            dlg.setCurrentColor(QtGui.QColor(self._color))
+
+        if dlg.exec():
+            self.setColor(dlg.currentColor().name())
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -56,6 +104,24 @@ class MainWindow(QMainWindow):
         self.button_run_program.triggered.connect(self.onToolBarRunButtonClick)
         toolbar.addAction(self.button_run_program)
 
+        # Add the 'Save' button to the toolbar
+        self.button_run_program = QAction("Save", self)
+        self.button_run_program.setStatusTip("Save changes")
+        self.button_run_program.triggered.connect(self.updateColors)
+        toolbar.addAction(self.button_run_program)
+
+        # Add the 'main color' button to the toolbar
+        self.main_color = ColorButton()
+        self.main_color.setStatusTip("Select main color for UVSim")
+        toolbar.addWidget(self.main_color)
+
+        # Add the 'secondary color' button to the toolbar
+        self.second_color = ColorButton()
+        self.second_color.setColor("#ffffff")
+        self.second_color.setStatusTip("Select secondary color for UVSim")
+        toolbar.addWidget(self.second_color)
+
+
         # Button 'Checker'
         self.button_is_checked = False
 
@@ -76,6 +142,16 @@ class MainWindow(QMainWindow):
         input_button = QPushButton("Enter")
         input_button.clicked.connect(self.onInputButtonClick)
         main_layout.addWidget(input_button)
+
+    def updateColors(self):
+        self.setStyleSheet("""
+        MainWindow {background-color: %s;}
+        QToolBar {background-color: %s;}
+        QTextEdit {background-color: %s;}
+        QLineEdit {background-color: %s;}
+        QPushButton {background-color: %s;}
+        """
+         % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
 
     def updateConsoleDisplay(self):
         self.uvSimOut = self.uvSim.output
