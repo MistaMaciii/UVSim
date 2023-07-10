@@ -3,6 +3,7 @@ from PyQt6.QtGui import QAction
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
 #Things to do handle file and run clicked again. Reset memory and gui views
+
 class ColorButton(QtWidgets.QPushButton):
     '''
     Custom Qt Widget to show a chosen color.
@@ -49,8 +50,6 @@ class ColorButton(QtWidgets.QPushButton):
 
         if dlg.exec():
             self.setColor(dlg.currentColor().name())
-
-
 
 class MainWindow(QMainWindow):
     def __init__(self, uvSimCallerIn):
@@ -122,6 +121,27 @@ class MainWindow(QMainWindow):
 
 
         # Button 'Checker'
+        self.button_is_checked = False
+
+        # Add the 'Save' button to the toolbar
+        self.button_run_program = QAction("Save", self)
+        self.button_run_program.setStatusTip("Save changes")
+        self.button_run_program.triggered.connect(self.updateColors)
+        toolbar.addAction(self.button_run_program)
+
+        # Add the 'main color' button to the toolbar
+        self.main_color = ColorButton()
+        self.main_color.setStatusTip("Select main color for UVSim")
+        toolbar.addWidget(self.main_color)
+
+        # Add the 'secondary color' button to the toolbar
+        self.second_color = ColorButton()
+        self.second_color.setColor("#ffffff")
+        self.second_color.setStatusTip("Select secondary color for UVSim")
+        toolbar.addWidget(self.second_color)
+
+
+        # Button 'Checker'
         self.run_button_is_checked = False
         self.setStatusBar(QStatusBar(self))
 
@@ -154,6 +174,16 @@ class MainWindow(QMainWindow):
         """
          % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
 
+
+    def updateColors(self):
+        self.setStyleSheet("""
+        MainWindow {background-color: %s;}
+        QToolBar {background-color: %s;}
+        QTextEdit {background-color: %s;}
+        QLineEdit {background-color: %s;}
+        QPushButton {background-color: %s;}
+        """
+         % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
 
     def updateConsoleDisplay(self):
         self.uvSimOut = self.uvSimCaller.output
