@@ -59,3 +59,27 @@ class UVSim:
     self.loader = Loader.Loader()  # initialize Loader every file load
     self.loader.load_file(file_path)
     self.memory.mem = self.loader.memory.mem  # prints memory after loading file
+
+  def resetForNewFile(self):
+    self.output = ""
+    self.is_active = True          #initialize the is_active indicator
+    self.ip = 0                    #initializes the intruction pointer
+    self.halt_status = False
+    self.line = 1
+    self.op_group = ""
+    self.op_call = ""
+    self.mem_loc = 0
+    self.memory = Memory.Memory()
+    self.loader = Loader.Loader()
+    self.window.update_displays()
+
+  def resetForNewRun(self):
+    self.output = ""
+    self.is_active = True          #initialize the is_active indicator
+    self.ip = 0                    #initializes the intruction pointer
+    self.halt_status = False
+    self.line = 1
+    self.op_group = ""
+    self.op_call = ""
+    self.mem_loc = 0
+    self.window.update_displays()

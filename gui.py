@@ -198,6 +198,7 @@ class MainWindow(QMainWindow):
     def onToolBarFileButtonClick(self):
         # self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
         if self.run_button_is_checked == False:
+            self.uvSimCaller.resetForNewFile()
             #Run Loader func
             self.run_button_is_checked = True
             file_dialog = QFileDialog()
@@ -221,6 +222,7 @@ class MainWindow(QMainWindow):
             self.console_output.setPlainText(self.uvSimOut)
         else:
             if self.run_button_is_checked == False:
+                self.uvSimCaller.resetForNewFile()
                 self.input_line.setReadOnly(False)
                 self.input_button.setVisible(True)
                 self.run_button_is_checked = True
