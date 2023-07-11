@@ -222,7 +222,7 @@ class MainWindow(QMainWindow):
             self.console_output.setPlainText(self.uvSimOut)
         else:
             if self.run_button_is_checked == False:
-                # self.uvSimCaller.resetForNewFile()
+                self.uvSimCaller.resetForNewRun()
                 self.input_line.setReadOnly(False)
                 self.input_button.setVisible(True)
                 self.run_button_is_checked = True
