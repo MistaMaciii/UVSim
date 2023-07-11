@@ -230,9 +230,9 @@ class MainWindow(QMainWindow):
                 self.console_output.setPlainText(self.uvSimOut)  # update prompt
                 QApplication.processEvents()  # Force immediate update of the console output
                 self.input_line.clear()
-                while self.uvSimCaller.runSystem() == 0:
+                self.uvSimCaller.runSystem()
                     # output to console "input please"
-                    self.updateConsoleDisplay()
+                self.updateConsoleDisplay()
             self.run_button_is_checked = False
         # self.uvSim = UVSim.UVSim() # reset UVSim after runsys finish
 

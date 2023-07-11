@@ -47,8 +47,8 @@ class UVSim:
         Control_Operations.Control_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
       self.ip += 1     #go to the next word
       self.window.update_displays()
-    self.is_active = False    #set is_active to false after system has been run
-    self.halt_status = False  #reset halt_status
+    # self.is_active = False    #set is_active to false after system has been run
+    # self.halt_status = False  #reset halt_status
 
   def guiSetup(self):
     with open("style.css", "r") as file:    #opens file for css styles
