@@ -29,7 +29,6 @@ class UVSim:
     # self.ip = 0             #if the system resets, re initialize to 0 #commented out for gui
     self.halt_status = False
     while not self.halt_status:
-      print(self.ip, self.memory.mem[self.ip])
       curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
       if curr_word[0] == "-": #if the first char is '-' then go to the next word
         self.ip += 1
@@ -79,8 +78,4 @@ class UVSim:
     self.is_active = True          #initialize the is_active indicator
     self.ip = 0                    #initializes the intruction pointer
     self.halt_status = False
-    self.line = 1
-    self.op_group = ""
-    self.op_call = ""
-    self.mem_loc = 0
     self.window.update_displays()
