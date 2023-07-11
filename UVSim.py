@@ -79,8 +79,4 @@ class UVSim:
     self.is_active = True          #initialize the is_active indicator
     self.ip = 0                    #initializes the intruction pointer
     self.halt_status = False
-    self.line = 1
-    self.op_group = ""
-    self.op_call = ""
-    self.mem_loc = 0
     self.window.update_displays()
