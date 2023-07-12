@@ -8,6 +8,7 @@ from os import path
     cant see select and confirm boxes
 > Raise value errors into the GUI on incorrect file input instead of crash
 > Load file after save into proper mem
+> Dont save past 99 lines
 '''
 class ColorButton(QtWidgets.QPushButton):
     '''
