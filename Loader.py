@@ -9,9 +9,6 @@ class Loader:
         try:
             with open(file, "r", encoding="utf8") as f:       #opens file
                 for x in f:
-                    if x in ("-99999"):
-                        f.close()
-                        break                 #if word is -99999, stop reading and close the file
                     word = x[0:-1]          #set word to one smaller than word length to remove newline
                     if len(word) != 5:      #if word is longer than 5 chars throw an error
                         raise ValueError("incorrect input format on line " + str(self.line))
