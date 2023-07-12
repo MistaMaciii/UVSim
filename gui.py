@@ -151,6 +151,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.input_line)
         self.input_button = QPushButton("Enter")
         self.input_button.clicked.connect(self.onSubmit)
+        self.input_line.returnPressed.connect(self.onSubmit)
         main_layout.addWidget(self.input_button)
         self.input_button.setVisible(False)
 
