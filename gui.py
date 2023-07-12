@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
 
         # Initialize file_path
         self.file_path = False
- #       # Initialize output string
+        # Initialize output string
         self.uvSimOut = ""
         self.user_input = ""
 
@@ -90,10 +90,20 @@ class MainWindow(QMainWindow):
         toolbar.setMovable(False)
 
         # Add the 'file' selector button to the toolbar
-        self.button_file = QAction("File...")
+        self.button_file = QAction("File...", )
         self.button_file.setStatusTip("Select the file to run")
+        self.button_file.setToolTip("Ctrl+O")
+        self.button_file.setShortcut("Ctrl+O")
         self.button_file.triggered.connect(self.onToolBarFileButtonClick)
         toolbar.addAction(self.button_file)
+
+        # Add the 'Save' button
+        self.button_save = QAction("Save")
+        self.button_save.setStatusTip("Save changes to file")
+        self.button_file.setToolTip("Ctrl+S")
+        self.button_save.setShortcut("Ctrl+S")
+        self.button_save.triggered.connect(self.onToolbarSave)
+        toolbar.addAction(self.button_save)
 
         # Add the 'run' button to the toolbar
         self.button_run_program = QAction("Run", self)
@@ -101,13 +111,6 @@ class MainWindow(QMainWindow):
         self.button_run_program.triggered.connect(self.onToolBarRunButtonClick)
         toolbar.addAction(self.button_run_program)
 
-
-        # Add the 'Save' button to the toolbar
-        self.button_run_program = QAction("Save", self)
-        self.button_run_program.setStatusTip("Save changes")
-        self.button_run_program.triggered.connect(self.updateColors)
-        toolbar.addAction(self.button_run_program)
-
         # Add the 'main color' button to the toolbar
         self.main_color = ColorButton()
         self.main_color.setStatusTip("Select main color for UVSim")
@@ -118,28 +121,15 @@ class MainWindow(QMainWindow):
         self.second_color.setColor("#ffffff")
         self.second_color.setStatusTip("Select secondary color for UVSim")
         toolbar.addWidget(self.second_color)
-
 
         # Button 'Checker'
         self.button_is_checked = False
 
-        # Add the 'Save' button to the toolbar
-        self.button_run_program = QAction("Save", self)
-        self.button_run_program.setStatusTip("Save changes")
-        self.button_run_program.triggered.connect(self.updateColors)
-        toolbar.addAction(self.button_run_program)
-
-        # Add the 'main color' button to the toolbar
-        self.main_color = ColorButton()
-        self.main_color.setStatusTip("Select main color for UVSim")
-        toolbar.addWidget(self.main_color)
-
-        # Add the 'secondary color' button to the toolbar
-        self.second_color = ColorButton()
-        self.second_color.setColor("#ffffff")
-        self.second_color.setStatusTip("Select secondary color for UVSim")
-        toolbar.addWidget(self.second_color)
-
+        # Add the 'Theme' button to the toolbar
+        self.button_set_theme = QAction("Set Theme", self)
+        self.button_set_theme.setStatusTip("Save theme changes")
+        self.button_set_theme.triggered.connect(self.updateColors)
+        toolbar.addAction(self.button_set_theme)
 
         # Button 'Checker'
         self.run_button_is_checked = False
@@ -174,7 +164,6 @@ class MainWindow(QMainWindow):
         """
          % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
 
-
     def updateColors(self):
         self.setStyleSheet("""
         MainWindow {background-color: %s;}
@@ -196,7 +185,6 @@ class MainWindow(QMainWindow):
         self.memory_textedit.setPlainText(memory_text)
 
     def onToolBarFileButtonClick(self):
-        # self.uvSim = UVSim.UVSim()  # initialize UVSim every file load
         if self.run_button_is_checked == False:
             self.uvSimCaller.resetForNewFile()
             #Run Loader func
@@ -207,16 +195,14 @@ class MainWindow(QMainWindow):
                 directory=".",
                 filter="All Files (*)")
             self.uvSimCaller.loader.load_file(self.file_path)
-
             self.uvSimCaller.runLoader(self.file_path)
-            
             self.memory_textedit.clear()
             self.update_memory_display()
+            self.memory_textedit.setReadOnly(False) # let users edit file after load
             self.updateConsoleDisplay()
         self.run_button_is_checked = False  # reset button after system is finished
 
     def onToolBarRunButtonClick(self):
-        # self.uvSim = UVSim.UVSim()  # initialize UVSim every file run
         if self.file_path == False:  # check if file_path exists
             self.uvSimOut += "No file selected. Please select a file\n"
             self.console_output.setPlainText(self.uvSimOut)
@@ -231,10 +217,13 @@ class MainWindow(QMainWindow):
                 QApplication.processEvents()  # Force immediate update of the console output
                 self.input_line.clear()
                 self.uvSimCaller.runSystem()
-                    # output to console "input please"
                 self.updateConsoleDisplay()
             self.run_button_is_checked = False
-        # self.uvSim = UVSim.UVSim() # reset UVSim after runsys finish
+
+    def onToolbarSave(self):
+        pass
+
+
 
     def onSubmit(self):
         self.close_event_loop()
