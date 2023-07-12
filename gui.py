@@ -7,7 +7,7 @@ from os import path
 > Color picker interface is all black on black selection and 
     cant see select and confirm boxes
 > Raise value errors into the GUI on incorrect file input instead of crash
->
+> Load file after save into proper mem
 '''
 class ColorButton(QtWidgets.QPushButton):
     '''
