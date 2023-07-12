@@ -44,7 +44,6 @@ class UVSim:
       self.ip += 1     #go to the next word
       self.window.update_displays()
 
-
   def guiSetup(self):
     with open("style.css", "r") as file:    #opens file for css styles
         self.app.setStyleSheet(file.read())

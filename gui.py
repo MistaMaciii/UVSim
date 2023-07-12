@@ -3,12 +3,13 @@ from PyQt6.QtGui import QAction
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
 from os import path
-''' TODO:
+'''         TO DO : >           DONE : X 
 > Color picker interface is all black on black selection and 
     cant see select and confirm boxes
 > Raise value errors into the GUI on incorrect file input instead of crash
-> Load file after save into proper mem
+X Load file after save into proper mem
 > Dont save past 99 lines
+X Dont change memory view during runs in order to keep saves clean
 '''
 class ColorButton(QtWidgets.QPushButton):
     '''
@@ -235,6 +236,14 @@ class MainWindow(QMainWindow):
                 with open(self.file_path, 'w', encoding="utf8") as f:
                     text = self.memory_textedit.toPlainText()
                     f.write(text)
+                self.uvSimCaller.resetForNewFile()
+                #Run Loader func
+                self.uvSimCaller.loader.load_file(self.file_path)
+                self.uvSimCaller.runLoader(self.file_path)
+                self.memory_textedit.clear()
+                self.update_memory_display()
+                self.updateConsoleDisplay()
+
         except TypeError:
             self.uvSimOut += "Invalid file name\n"
             self.console_output.setPlainText(self.uvSimOut)
@@ -255,6 +264,6 @@ class MainWindow(QMainWindow):
         self.event_loop.exec()
 
     def update_displays(self):
-        self.update_memory_display()
+        # self.update_memory_display()
         self.updateConsoleDisplay()
     
