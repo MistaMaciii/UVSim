@@ -23,10 +23,7 @@ class UVSim:
     self.window = gui.MainWindow(self)
     self.loader = Loader.Loader()
 
-
-
   def runSystem(self):
-    # self.ip = 0             #if the system resets, re initialize to 0 #commented out for gui
     self.halt_status = False
     while not self.halt_status:
       curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
@@ -46,8 +43,7 @@ class UVSim:
         Control_Operations.Control_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
       self.ip += 1     #go to the next word
       self.window.update_displays()
-    # self.is_active = False    #set is_active to false after system has been run
-    # self.halt_status = False  #reset halt_status
+
 
   def guiSetup(self):
     with open("style.css", "r") as file:    #opens file for css styles

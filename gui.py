@@ -2,15 +2,19 @@ from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatus
 from PyQt6.QtGui import QAction
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
-#Things to do handle file and run clicked again. Reset memory and gui views
-
+from os import path
+''' TODO:
+> Color picker interface is all black on black selection and 
+    cant see select and confirm boxes
+> Raise value errors into the GUI on incorrect file input instead of crash
+>
+'''
 class ColorButton(QtWidgets.QPushButton):
     '''
     Custom Qt Widget to show a chosen color.
 
     Left-clicking the button shows the color-chooser
     '''
-
     colorChanged = pyqtSignal(object)
 
     def __init__(self, *args, color="#4C721D", **kwargs):
@@ -60,6 +64,8 @@ class MainWindow(QMainWindow):
 
         # Initialize file_path
         self.file_path = False
+        self.file_name = ""
+
         # Initialize output string
         self.uvSimOut = ""
         self.user_input = ""
@@ -195,6 +201,7 @@ class MainWindow(QMainWindow):
                 caption="Select File",
                 directory=".",
                 filter="All Files (*)")
+            self.file_name = path.basename(self.file_path)
             self.uvSimCaller.loader.load_file(self.file_path)
             self.uvSimCaller.runLoader(self.file_path)
             self.memory_textedit.clear()
@@ -222,9 +229,14 @@ class MainWindow(QMainWindow):
             self.run_button_is_checked = False
 
     def onToolbarSave(self):
-        pass
-
-
+        try:
+            if self.file_path:
+                with open(self.file_path, 'w', encoding="utf8") as f:
+                    text = self.memory_textedit.toPlainText()
+                    f.write(text)
+        except TypeError:
+            self.uvSimOut += "Invalid file name\n"
+            self.console_output.setPlainText(self.uvSimOut)
 
     def onSubmit(self):
         self.close_event_loop()
