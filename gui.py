@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
         # Add the 'Save' button
         self.button_save = QAction("Save")
         self.button_save.setStatusTip("Save changes to file")
-        self.button_file.setToolTip("Ctrl+S")
+        self.button_save.setToolTip("Ctrl+S")
         self.button_save.setShortcut("Ctrl+S")
         self.button_save.triggered.connect(self.onToolbarSave)
         toolbar.addAction(self.button_save)
@@ -116,6 +116,8 @@ class MainWindow(QMainWindow):
         # Add the 'run' button to the toolbar
         self.button_run_program = QAction("Run", self)
         self.button_run_program.setStatusTip("Run the file through UVSim")
+        self.button_run_program.setToolTip("Ctrl+R")
+        self.button_run_program.setShortcut("Ctrl+R")
         self.button_run_program.triggered.connect(self.onToolBarRunButtonClick)
         toolbar.addAction(self.button_run_program)
 
@@ -222,11 +224,11 @@ class MainWindow(QMainWindow):
                 self.uvSimCaller.resetForNewRun()
                 self.input_line.setReadOnly(False)
                 self.input_button.setVisible(True)
+                self.input_line.setFocus()
                 self.run_button_is_checked = True
                 self.console_output.clear()
                 self.console_output.setPlainText(self.uvSimOut)  # update prompt
                 QApplication.processEvents()  # Force immediate update of the console output
-                self.input_line.clear()
                 self.uvSimCaller.runSystem()
                 self.updateConsoleDisplay()
             self.run_button_is_checked = False
@@ -268,10 +270,10 @@ class MainWindow(QMainWindow):
             self.event_loop.quit()
 
     def wait_for_button(self):
+        self.input_line.setFocus()
         self.event_loop = QEventLoop()
         self.event_loop.exec()
 
     def update_displays(self):
         # self.update_memory_display()
         self.updateConsoleDisplay()
-    
