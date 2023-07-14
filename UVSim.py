@@ -5,6 +5,7 @@ from Operations import LoadStore_Operations
 import Memory
 import gui
 import sys
+import re
 from PyQt6.QtWidgets import QApplication
 import Loader
 
@@ -22,14 +23,18 @@ class UVSim:
     self.app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
     self.window = gui.MainWindow(self)
     self.loader = Loader.Loader()
+    self.pattern = r'^[+-]?[0-9]+$' #pattern for + or - at beginning followed by ints
 
   def runSystem(self):
     self.halt_status = False
     while not self.halt_status:
       curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
-      if curr_word[0] == "-": #if the first char is '-' then go to the next word
-        self.ip += 1
-        continue
+      if len(curr_word) != 5:      #if word is longer than 5 chars throw an error
+        self.crashCaller()
+        break
+      if re.match(self.pattern, curr_word) is None:
+        self.crashCaller()
+        break
       self.op_group = str(curr_word[1:2]) #split op code into type
       self.op_call = str(curr_word[2:3]) #split op code into operation of type
       self.mem_loc = int(curr_word[3:]) # get mem location from word
@@ -43,6 +48,10 @@ class UVSim:
         Control_Operations.Control_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
       self.ip += 1     #go to the next word
       self.window.update_displays()
+
+  def crashCaller(self):
+    self.output += "CRASH // Incorrect input format on line " + str(self.ip + 1) + "\n"
+    self.window.update_displays()
 
   def guiSetup(self):
     with open("style.css", "r") as file:    #opens file for css styles
