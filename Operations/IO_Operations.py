@@ -30,7 +30,7 @@ class IO_Operations:
     """Write a word from a specific location in memory to screen"""
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
-    UVSim.output += Memory.mem[add] + "\n"
+    UVSim.output += str(Memory.mem[add]) + "\n"
     # UVSim.output += (str(out) + "\n")
 
 

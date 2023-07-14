@@ -210,6 +210,7 @@ class MainWindow(QMainWindow):
             self.update_memory_display()
             self.memory_textedit.setReadOnly(False) # let users edit file after load
             self.updateConsoleDisplay()
+            self.console_output.setPlainText(self.uvSimCaller.loader.output)
         self.run_button_is_checked = False  # reset button after system is finished
 
     def onToolBarRunButtonClick(self):
@@ -243,6 +244,7 @@ class MainWindow(QMainWindow):
                 self.memory_textedit.clear()
                 self.update_memory_display()
                 self.updateConsoleDisplay()
+                self.console_output.setPlainText(self.uvSimCaller.loader.output)
 
         except TypeError:
             self.uvSimOut += "Invalid file name\n"
