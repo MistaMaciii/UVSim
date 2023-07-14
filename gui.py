@@ -6,9 +6,9 @@ from os import path
 '''         TO DO : >           DONE : X 
 > Color picker interface is all black on black selection and 
     cant see select and confirm boxes
-> Raise value errors into the GUI on incorrect file input instead of crash
+X Raise value errors into the GUI on incorrect file input instead of crash
 X Load file after save into proper mem
-> Dont save past 99 lines
+X Dont save past 99 lines
 X Dont change memory view during runs in order to keep saves clean
 '''
 class ColorButton(QtWidgets.QPushButton):
