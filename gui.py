@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QToolBar, QStatusBar, QFileDialog, QLineEdit, QVBoxLayout, QWidget, QTextEdit, QInputDialog, QPushButton, QMessageBox
 from PyQt6.QtGui import QAction
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
@@ -236,6 +236,12 @@ class MainWindow(QMainWindow):
             if self.file_path:
                 with open(self.file_path, 'w', encoding="utf8") as f:
                     text = self.memory_textedit.toPlainText()
+                    lines = text.split("\n")
+                    if len(lines) > 100:
+                        lines = lines[:100]  # Truncate the text to 99 characters
+                        # Display a message to notify the user
+                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 100.")
+                    text = "\n".join(lines)
                     f.write(text)
                 self.uvSimCaller.resetForNewFile()
                 #Run Loader func
