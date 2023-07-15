@@ -2,11 +2,7 @@
 === UVSim Instructions ===
 ==========================
 
-Confirm that Python 3 or later is installed.
-
-Confirm that Pyqt6 is installed.
-
--Double click UVSim.exe to open the program
+-Double click 'Run UVSim' to open the program
 -Change theme by selecting one of the two color tiles on the toolbar, select the disired color in the 
 color in Select Color window and click the Okay button. To load the change, click the Set Theme button.
 -Select File button, and select the test file wanted from its destination. The text file should
