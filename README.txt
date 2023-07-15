@@ -6,17 +6,17 @@ Confirm that Python 3 or later is installed.
 
 Confirm that Pyqt6 is installed.
 
-Run main.py to start application
-Select File button, and select the test file wanted from its destination. The text file should
+-Double click UVSim.exe to open the program
+-Change theme by selecting one of the two color tiles on the toolbar, select the disired color in the 
+color in Select Color window and click the Okay button. To load the change, click the Set Theme button.
+-Select File button, and select the test file wanted from its destination. The text file should
 contain only properly formatted operation codes, four digit signed integers such as +1234 and -5678.
-The contents of the file selected will then display to memory
-Select the Run button, this will trigger the function within the user's code editor terminal outside of the application
-Input words as prompted to code editor terminal
-Result is printed to the 'Console Output' widget in the application
-
-The first two digits of the operation code specifies the operation selection.
-The final two digits of the operation codes specify the memory location.
-
+-The contents of the file selected will then display to memory
+-Edit file as needed, click Save button when finished
+-Click the Run button
+-Input words as prompted and submit
+-The first two digits of the operation code specifies the operation selection.
+-The final two digits of the operation codes specify the memory location.
 
 =================================
 === UVSim: BasicML Vocabulary ===
