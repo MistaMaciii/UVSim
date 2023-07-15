@@ -3,14 +3,6 @@ from PyQt6.QtGui import QAction
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
 from os import path
-'''         TO DO : >           DONE : X 
-> Color picker interface is all black on black selection and 
-    cant see select and confirm boxes
-X Raise value errors into the GUI on incorrect file input instead of crash
-X Load file after save into proper mem
-X Dont save past 99 lines
-X Dont change memory view during runs in order to keep saves clean
-'''
 class ColorButton(QtWidgets.QPushButton):
     '''
     Custom Qt Widget to show a chosen color.
@@ -36,6 +28,8 @@ class ColorButton(QtWidgets.QPushButton):
             self.colorChanged.emit(color)
 
         if self._color:
+            if self._color == "#000000":
+                self._color = "#3b3b3b"
             self.setStyleSheet("background-color: %s;" % self._color)
         else:
             self.setStyleSheet("")
@@ -53,7 +47,6 @@ class ColorButton(QtWidgets.QPushButton):
         dlg = QtWidgets.QColorDialog(self)
         if self._color:
             dlg.setCurrentColor(QtGui.QColor(self._color))
-
         if dlg.exec():
             self.setColor(dlg.currentColor().name())
 
@@ -175,16 +168,6 @@ class MainWindow(QMainWindow):
         """
          % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
 
-    def updateColors(self):
-        self.setStyleSheet("""
-        MainWindow {background-color: %s;}
-        QToolBar {background-color: %s;}
-        QTextEdit {background-color: %s;}
-        QLineEdit {background-color: %s;}
-        QPushButton {background-color: %s;}
-        """
-         % (self.main_color._color,self.second_color._color,self.second_color._color,self.second_color._color,self.second_color._color))
-
     def updateConsoleDisplay(self):
         self.uvSimOut = self.uvSimCaller.output
         self.console_output.append(self.uvSimOut)  # append new output
@@ -266,8 +249,12 @@ class MainWindow(QMainWindow):
             self.updateConsoleDisplay()
 
     def close_event_loop(self):
-        if self.event_loop is not None:
-            self.event_loop.quit()
+        try:
+            if self.event_loop is not None:
+                self.event_loop.quit()
+        except AttributeError: #on incorrect file load
+            self.uvSimOut += "No file selected. Please select a file\n "
+            self.console_output.setPlainText(self.uvSimOut)
 
     def wait_for_button(self):
         self.input_line.setFocus()

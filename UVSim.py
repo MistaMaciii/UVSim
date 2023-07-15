@@ -28,29 +28,34 @@ class UVSim:
   def runSystem(self):
     self.halt_status = False
     while not self.halt_status:
-      curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
-      if len(curr_word) != 5:      #if word is longer than 5 chars throw an error
-        self.crashCaller()
+      try:
+        curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
+        if len(curr_word) != 5:      #if word is longer than 5 chars throw an error
+          self.crashCaller()
+          break
+        if re.match(self.pattern, curr_word) is None:
+          self.crashCaller()
+          break
+        self.op_group = str(curr_word[1:2]) #split op code into type
+        self.op_call = str(curr_word[2:3]) #split op code into operation of type
+        self.mem_loc = int(curr_word[3:]) # get mem location from word
+        if self.op_group == "1":
+          IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
+        elif self.op_group == "2":
+          LoadStore_Operations.LoadStore_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
+        elif self.op_group == "3":
+          Arithmetic_Operations.Arithmetic_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
+        elif self.op_group == "4":
+          Control_Operations.Control_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
+        self.ip += 1     #go to the next word
+        self.window.update_displays()
+      except IndexError:
+        self.output += "CRASH // Index Error\n"
+        self.window.update_displays()
         break
-      if re.match(self.pattern, curr_word) is None:
-        self.crashCaller()
-        break
-      self.op_group = str(curr_word[1:2]) #split op code into type
-      self.op_call = str(curr_word[2:3]) #split op code into operation of type
-      self.mem_loc = int(curr_word[3:]) # get mem location from word
-      if self.op_group == "1":
-        IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
-      elif self.op_group == "2":
-        LoadStore_Operations.LoadStore_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
-      elif self.op_group == "3":
-        Arithmetic_Operations.Arithmetic_Operations.pickOperation(self.op_call, self.mem_loc, self.memory)
-      elif self.op_group == "4":
-        Control_Operations.Control_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
-      self.ip += 1     #go to the next word
-      self.window.update_displays()
 
   def crashCaller(self):
-    self.output += "CRASH // Incorrect input format on line " + str(self.ip + 1) + "\n"
+    self.output += "CRASH // Error on line " + str(self.ip + 1) + "\n"
     self.window.update_displays()
 
   def guiSetup(self):
