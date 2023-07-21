@@ -233,7 +233,7 @@ class MainWindow(QMainWindow):
                     if len(lines) > self.uvSimCaller.mem_limit:
                         lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text size 250
                         # Display a message to notify the user
-                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size ", self.uvSimCaller.mem_limit)
+                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 250",)
                     text = "\n".join(lines)
                     f.write(text)
                 self.uvSimCaller.resetForNewFile()
