@@ -31,7 +31,7 @@ class UVSim:
     while not self.halt_status:
       try:
         curr_word = str(self.memory.mem[self.ip]) #set curret word = to the word the IP is pointing to
-        if len(curr_word) != 5:      #if word is longer than 5 chars throw an error
+        if len(curr_word) > 7:      #if word is longer than 7 chars throw an error
           self.crashCaller()
           break
         if re.match(self.pattern, curr_word) is None:
@@ -40,6 +40,9 @@ class UVSim:
         self.op_group = str(curr_word[1:2]) #split op code into type
         self.op_call = str(curr_word[2:3]) #split op code into operation of type
         self.mem_loc = int(curr_word[3:]) # get mem location from word
+        if self.mem_loc > 250:  #if memory location is greater than 250, throw error
+          crashCaller()
+          break
         if self.op_group == "1":
           IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
         elif self.op_group == "2":

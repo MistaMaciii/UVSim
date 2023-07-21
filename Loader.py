@@ -18,8 +18,8 @@ class Loader:
                             word = x[:]
                         if re.match(self.pattern, word) is None:
                             self.output += "Incorrect input format on line " + str(self.line) + "\n"
-                        if len(word) != 5:      #if word is longer than 5 chars throw an error
-                            self.output += "Incorrect input format on line " + str(self.line) + "\n"
+                        if len(word) > 7:      #if word is longer than 5 chars throw an error
+                            self.output += "Incorrect input format on line " + str(self.line) + "\n"                           
                         self.memory.mem[self.line - 1] = word     #add the word to memory at line minus 1
                         self.line += 1
                 except TypeError:
