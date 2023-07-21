@@ -2,7 +2,7 @@
 === UVSim Instructions ===
 ==========================
 -Ensure Entire Repository is downloaded
--Open the output folder and Run UVSim.exe
+-In the folder output/main/ run the UVSim.exe to start the application.
 -Change theme by selecting one of the two color tiles on the toolbar, select the disired color in the 
 color in Select Color window and click the Okay button. To load the change, click the Set Theme button.
 -Select File button, and select the test file wanted from its destination. The text file should
