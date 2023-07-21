@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
 
         # Initialize UVSim
         self.uvSimCaller = uvSimCallerIn
-
+        
         # Initialize file_path
         self.file_path = False
         self.file_name = ""
@@ -105,6 +105,14 @@ class MainWindow(QMainWindow):
         self.button_save.setShortcut("Ctrl+S")
         self.button_save.triggered.connect(self.onToolbarSave)
         toolbar.addAction(self.button_save)
+
+        # Add the 'Save as' button
+        self.button_save_as = QAction("Save as")
+        self.button_save_as.setStatusTip("Save changes to new file")
+        self.button_save_as.setToolTip("Ctrl+Shift+S")
+        self.button_save_as.setShortcut("Ctrl+Shift+S")
+        self.button_save_as.triggered.connect(self.onToolbarSaveAs)
+        toolbar.addAction(self.button_save_as)
 
         # Add the 'run' button to the toolbar
         self.button_run_program = QAction("Run", self)
@@ -222,10 +230,10 @@ class MainWindow(QMainWindow):
                 with open(self.file_path, 'w', encoding="utf8") as f:
                     text = self.memory_textedit.toPlainText()
                     lines = text.split("\n")
-                    if len(lines) > 100:
-                        lines = lines[:100]  # Truncate the text to 99 characters
+                    if len(lines) > self.uvSimCaller.mem_limit:
+                        lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text size 250
                         # Display a message to notify the user
-                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 100.")
+                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 250",)
                     text = "\n".join(lines)
                     f.write(text)
                 self.uvSimCaller.resetForNewFile()
@@ -241,6 +249,37 @@ class MainWindow(QMainWindow):
             self.uvSimOut += "Invalid file name\n"
             self.console_output.setPlainText(self.uvSimOut)
 
+    def onToolbarSaveAs(self):
+            try:
+                self.file_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;All Files (*)")
+                text = self.memory_textedit.toPlainText()
+                try:
+                    lines = text.split("\n")
+                except TypeError:
+                    if self.file_path:
+                        with open(self.file_path, 'w') as f:
+                            f.write(text)
+                            return
+                if len(lines) > self.uvSimCaller.mem_limit:
+                    lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text to size of mem limit
+                    # Display a message to notify the user
+                    QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size ", self.uvSimCaller.mem_limit)
+                text = "\n".join(lines)
+                if self.file_path:
+                    with open(self.file_path, 'w') as f:
+                        f.write(text)
+                self.uvSimCaller.resetForNewFile()
+                #Run Loader func
+                self.uvSimCaller.loader.load_file(self.file_path)
+                self.uvSimCaller.runLoader(self.file_path)
+                self.memory_textedit.clear()
+                self.update_memory_display()
+                self.updateConsoleDisplay()
+                self.console_output.setPlainText(self.uvSimCaller.loader.output)
+            except TypeError:
+                self.uvSimOut += "Invalid file name\n"
+                self.console_output.setPlainText(self.uvSimOut)
+
     def onSubmit(self):
         self.close_event_loop()
         if self.run_button_is_checked == True:
@@ -253,7 +292,7 @@ class MainWindow(QMainWindow):
             if self.event_loop is not None:
                 self.event_loop.quit()
         except AttributeError: #on incorrect file load
-            self.uvSimOut += "No file selected. Please select a file\n "
+            self.uvSimOut += "Error Running File\n"
             self.console_output.setPlainText(self.uvSimOut)
 
     def wait_for_button(self):
