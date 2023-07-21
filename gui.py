@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
 
         # Initialize UVSim
         self.uvSimCaller = uvSimCallerIn
-
+        
         # Initialize file_path
         self.file_path = False
         self.file_name = ""
@@ -222,10 +222,10 @@ class MainWindow(QMainWindow):
                 with open(self.file_path, 'w', encoding="utf8") as f:
                     text = self.memory_textedit.toPlainText()
                     lines = text.split("\n")
-                    if len(lines) > 100:
-                        lines = lines[:100]  # Truncate the text to 99 characters
+                    if len(lines) > self.uvSimCaller.mem_limit:
+                        lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text size 250
                         # Display a message to notify the user
-                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 100.")
+                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size 250.")
                     text = "\n".join(lines)
                     f.write(text)
                 self.uvSimCaller.resetForNewFile()

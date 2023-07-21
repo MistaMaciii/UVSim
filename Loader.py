@@ -3,6 +3,7 @@ import re
 class Loader:
     def __init__(self):
         self.memory = Memory.Memory()     #initializes the memory
+        self.mem_limit = self.memory.mem_limit
         self.line = 1
         self.output = ""
         self.pattern = r'^[+-]?[0-9]+$'
@@ -12,7 +13,7 @@ class Loader:
             with open(file, "r", encoding="utf8") as f:       #opens file
                 for x in f:
                     word = x[0:-1] #set word to one smaller than word length to remove newline
-                    if self.line == 100: #on last line there wont be newline
+                    if self.line == self.mem_limit: #on last line there wont be newline
                         word = x[:]
                     if re.match(self.pattern, word) is None:
                         self.output += "Incorrect input format on line " + str(self.line) + "\n"
