@@ -233,7 +233,7 @@ class MainWindow(QMainWindow):
                     if len(lines) > self.uvSimCaller.mem_limit:
                         lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text to 99 characters
                         # Display a message to notify the user
-                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size ", self.uvSimCaler.mem_limit)
+                        QMessageBox.information(self, "Memory Truncated", "The memory has been truncated to size ", self.uvSimCaller.mem_limit)
                     text = "\n".join(lines)
                     f.write(text)
                 self.uvSimCaller.resetForNewFile()
@@ -292,7 +292,7 @@ class MainWindow(QMainWindow):
             if self.event_loop is not None:
                 self.event_loop.quit()
         except AttributeError: #on incorrect file load
-            self.uvSimOut += "No file selected. Please select a file\n "
+            self.uvSimOut += "Error Running File\n"
             self.console_output.setPlainText(self.uvSimOut)
 
     def wait_for_button(self):
