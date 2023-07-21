@@ -19,6 +19,7 @@ class UVSim:
     self.op_group = ""
     self.op_call = ""
     self.mem_loc = 0
+    self.mem_limit = 250
     self.memory = Memory.Memory()
     self.app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
     self.window = gui.MainWindow(self)
