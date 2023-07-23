@@ -5,11 +5,12 @@ from PyQt6.QtCore import Qt, QEventLoop, pyqtSignal
 from os import path
 
 """
+my proposed changes
 Memory tab should look like this maybe?
 
 
 
-class MemoryTab(QWidget):
+class MemoryTab(QWidget): #change to qmainwindow to be child?
     def __init__(self):
         QWidget.__init__(self)
         self.tabLayout = QGridLayout()
@@ -20,7 +21,7 @@ class MemoryTab(QWidget):
     
     def tabCreator(self, filename, filepath): #file load calls this with file info?
         self.tabWidget.addTab(label=filename)
-        self.memory_textedit = QTextEdit(readOnly = False)
+        self.memory_textedit = QTextEdit(readOnly = False) #bug here?
         tabLayout.addWidget(self.memory_textedit)
 
         self.close_button = QPushButton('Close')
@@ -29,7 +30,7 @@ class MemoryTab(QWidget):
         self.update_memory_display()
         self.tabIndex = self.tabWidget.count()
 
-    def update_memory_display(self): #modify go to tabcreator?
+    def update_memory_display(self): #modify go to tabcreator? #runloader?
         memory_text = "\n".join(self.uvSimCaller.memory.mem)
         self.memory_textedit.setPlainText(memory_text)
 
@@ -114,10 +115,12 @@ class MainWindow(QMainWindow):
         mem_label = QLabel("Memory")
         main_layout.addWidget(mem_label)
 
-        # Set textedit to display memory contents #modify move to tab creator
+        #modify move to tab creator
+        # Set textedit to display memory contents 
         self.memory_textedit = QTextEdit(readOnly = True)
         main_layout.addWidget(self.memory_textedit)
 
+        #modify
         # self.memory_tab = MemoryTab()
         # main_layout.addWidget(self.memory_tab)
         # self.memory_tab.show()
@@ -219,13 +222,15 @@ class MainWindow(QMainWindow):
         self.console_output.setPlainText(self.uvSimOut)
         QApplication.processEvents()
 
-    def update_memory_display(self): #modify go to tabcreator?
+    #modify go to MemoryTab()?
+    def update_memory_display(self): 
         memory_text = "\n".join(self.uvSimCaller.memory.mem)
         self.memory_textedit.setPlainText(memory_text)
 
     def onToolBarFileButtonClick(self):
         if self.run_button_is_checked == False:
-            self.uvSimCaller.resetForNewFile() #modify Go to tabcreator?
+            #modify Go to runbuttonclick?
+            self.uvSimCaller.resetForNewFile() 
             #Run Loader func
             self.run_button_is_checked = True
             file_dialog = QFileDialog()
@@ -233,17 +238,21 @@ class MainWindow(QMainWindow):
                 caption="Select File",
                 directory=".",
                 filter="All Files (*)")
-            self.file_name = path.basename(self.file_path) #modify pass to tabcreator
+            self.file_name = path.basename(self.file_path) 
+            #modify pass filename to tabcreator
+            #self.memory_tab.tabCreator(self.filename, self.file_path)
             self.uvSimCaller.loader.load_file(self.file_path) #modify put into runbutton
             self.uvSimCaller.runLoader(self.file_path) #modify put into run button, on tabfocus
-            self.memory_textedit.clear() #modify already inside tabcreator
-            self.update_memory_display()
-            self.memory_textedit.setReadOnly(False) # let users edit file after load
+            self.memory_textedit.clear() #modify remove?
+            self.update_memory_display() #modify memorytab stuff
+            self.memory_textedit.setReadOnly(False) #modify memorytab stuff
             self.updateConsoleDisplay()
             self.console_output.setPlainText(self.uvSimCaller.loader.output)
         self.run_button_is_checked = False  # reset button after system is finished
 
-    def onToolBarRunButtonClick(self): #modify for specific tab focus, run that file, and load proper data
+    #modify for specific tab focus, run that file, and load proper data
+    def onToolBarRunButtonClick(self):
+        #set file_path to tab focused
         if self.file_path == False:  # check if file_path exists
             self.uvSimOut += "No file selected. Please select a file\n"
             self.console_output.setPlainText(self.uvSimOut)
@@ -265,7 +274,7 @@ class MainWindow(QMainWindow):
         try:
             if self.file_path:  #modify on specific tab focus, get file path for tab focus
                 with open(self.file_path, 'w', encoding="utf8") as f:
-                    text = self.memory_textedit.toPlainText()  #pull from the tab creator
+                    text = self.memory_textedit.toPlainText()  #pull from the tab creator memory_tab.memory_texedit.toPlainText()
                     lines = text.split("\n")
                     if len(lines) > self.uvSimCaller.mem_limit:
                         lines = lines[:self.uvSimCaller.mem_limit]  # Truncate the text size 250
@@ -286,7 +295,7 @@ class MainWindow(QMainWindow):
             self.uvSimOut += "Invalid file name\n"
             self.console_output.setPlainText(self.uvSimOut)
 
-    def onToolbarSaveAs(self): #modify for
+    def onToolbarSaveAs(self): #modify for same as above
             try:
                 self.file_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;All Files (*)")
                 text = self.memory_textedit.toPlainText()
