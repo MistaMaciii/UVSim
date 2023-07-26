@@ -142,6 +142,12 @@ class MainWindow(QMainWindow):
         self.button_set_theme.triggered.connect(self.updateColors)
         toolbar.addAction(self.button_set_theme)
 
+        # Add the 'Convert' button to the toolbar
+        self.button_convert = QAction("Convert", self)
+        self.button_convert.setStatusTip("Convert 4 digit code into 6 digit code")
+        self.button_convert.triggered.connect(self.convertCode)
+        toolbar.addAction(self.button_convert)
+
         # Button 'Checker'
         self.run_button_is_checked = False
         self.setStatusBar(QStatusBar(self))
@@ -303,3 +309,10 @@ class MainWindow(QMainWindow):
     def update_displays(self):
         # self.update_memory_display()
         self.updateConsoleDisplay()
+
+    def convertCode(self):
+        """converts code"""
+        old_list = self.uvSimCaller.memory.mem
+        new_list = self.uvSimCaller.converter.convert(old_list)
+        self.uvSimCaller.memory.mem = new_list
+        self.update_memory_display()
