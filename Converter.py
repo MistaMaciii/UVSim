@@ -12,6 +12,8 @@ class Converter:
 
         while i < len(old_mem):
             old_str = old_mem[i]
+            if len(old_str) > 5:
+                return old_mem
             new_str = ""
             if old_str == "-9999":
                 new_str = "-999999"
