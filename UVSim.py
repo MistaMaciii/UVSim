@@ -8,6 +8,7 @@ import sys
 import re
 from PyQt6.QtWidgets import QApplication
 import Loader
+import Converter
 
 class UVSim:
   def __init__(self):
@@ -24,6 +25,7 @@ class UVSim:
     self.app = QApplication(sys.argv)  # Open the QApp through MainWindow class with command line options
     self.window = gui.MainWindow(self)
     self.loader = Loader.Loader()
+    self.converter = Converter.Converter()
     self.pattern = r'^[+-]?[0-9]+$' #pattern for + or - at beginning followed by ints
 
   def runSystem(self):
@@ -41,7 +43,7 @@ class UVSim:
         self.op_call = str(curr_word[2:3]) #split op code into operation of type
         self.mem_loc = int(curr_word[3:]) # get mem location from word
         if self.mem_loc > 250:  #if memory location is greater than 250, throw error
-          crashCaller()
+          self.crashCaller()
           break
         if self.op_group == "1":
           IO_Operations.IO_Operations.pickOperation(self.op_call, self.mem_loc, self.memory, self)
