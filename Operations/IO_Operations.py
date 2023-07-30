@@ -15,9 +15,9 @@ class IO_Operations:
     UVSim.window.input_line.clearFocus()
     if add > len(Memory.mem) -1:
         raise IndexError("Can't access memory at index " + str(add))
-    if (len(user_in) == 4 and user_in.isdigit()):   #if word is not == 5 chars redo
+    if (len(user_in) == 6 and user_in.isdigit()):   #if word is not == 5 chars redo
         Memory.mem[add] = str(user_in)
-    elif (len(user_in) == 5 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
+    elif (len(user_in) == 7 and (user_in[0] == '-' or (user_in[0] == '+')) and user_in[1:].isdigit):
         Memory.mem[add] = str(user_in)
     else:    #error here
         UVSim.output += ("Invalid length try again.\n")
