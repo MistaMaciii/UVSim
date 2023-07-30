@@ -39,9 +39,15 @@ class UVSim:
         if re.match(self.pattern, curr_word) is None:
           self.crashCaller()
           break
-        self.op_group = str(curr_word[1:2]) #split op code into type
-        self.op_call = str(curr_word[2:3]) #split op code into operation of type
-        self.mem_loc = int(curr_word[3:]) # get mem location from word
+        if len(curr_word) == 7:
+          self.op_group = str(curr_word[2:3]) #split op code into type
+          self.op_call = str(curr_word[3:4]) #split op code into operation of type
+          self.mem_loc = int(curr_word[4:]) # get mem location from word
+        if len(curr_word) == 5:
+          self.op_group = str(curr_word[1:2]) #split op code into type
+          self.op_call = str(curr_word[2:3]) #split op code into operation of type
+          self.mem_loc = int(curr_word[3:]) # get mem location from word
+          
         if self.mem_loc > 250:  #if memory location is greater than 250, throw error
           self.crashCaller()
           break
