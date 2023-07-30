@@ -11,7 +11,11 @@ Select the File button, and select the test file wanted from its destination. Th
 contain only properly formatted operation codes, six-digit signed integers, or four-digit signed integers such as +1234 and -5678 that are converted to six-digit signed integers.
 The contents of the file selected will then display in memory
 Select the Run button, this will trigger the function within the user's code editor terminal outside of the application
-Input words as prompted to code editor terminal
+Input words as prompted to code editor terminal-- four-digit signed integers must be appended with a zero and prepended with a zero
+    -ex:
+        desired input: +1007 
+        translated to 6 digits: +010070
+        
 Result is printed to the 'Console Output' widget in the application
 
 The first three digits of the operation code specifies the operation selection.
