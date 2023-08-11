@@ -19,14 +19,14 @@ class Control_Operations:
     """Branch to a specific location in memory if accumulator is negative"""
     if add > (len(Memory.mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
-    if Memory.acc < 0:
+    if int(Memory.acc) < 0:
         UVSim.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
   
   def branch_zero(add, Memory, UVSim):
     """Branch to a specific location in memory if accumulator is zero"""
     if add > (len(Memory.mem)-1):
         raise IndexError("Can't access memory at index " + str(add))
-    if Memory.acc == 0:
+    if int(Memory.acc) == 0:
         UVSim.ip = int(add) - 1    #set the instruction pointer to the memory address that was passed through
   
   def halt(Memory, UVSim):
